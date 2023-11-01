@@ -196,7 +196,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
               16.width,
               GestureDetector(
                 onTap: () {
-                  ViewAllServiceScreen().launch(context);
+                  ViewAllServiceScreen(isFromSearch: true,).launch(context);
                 },
                 child: Container(
                   padding: EdgeInsets.all(16),

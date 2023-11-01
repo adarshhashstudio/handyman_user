@@ -1,6 +1,5 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
-import 'package:booking_system_flutter/screens/service/view_all_service_screen_one.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen_two.dart';
 import 'package:booking_system_flutter/store/filter_store.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
@@ -21,7 +20,7 @@ import '../../utils/images.dart';
 import '../filter/filter_screen.dart';
 import 'component/service_component.dart';
 
-class ViewAllServiceScreen extends StatefulWidget {
+class ViewAllServiceScreenOne extends StatefulWidget {
   final int? categoryId;
   final String? categoryName;
   final String isFeatured;
@@ -30,7 +29,7 @@ class ViewAllServiceScreen extends StatefulWidget {
   final bool isFromSearch;
   final int? providerId;
 
-  ViewAllServiceScreen({
+  ViewAllServiceScreenOne({
     this.categoryId,
     this.categoryName = '',
     this.isFeatured = '',
@@ -42,14 +41,21 @@ class ViewAllServiceScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ViewAllServiceScreen> createState() => _ViewAllServiceScreenState();
+  State<ViewAllServiceScreenOne> createState() =>
+      _ViewAllServiceScreenOneState();
 }
 
-class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
+class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
   Future<List<CategoryData>>? futureCategory;
-  List<CategoryData> categoryList = [
-    CategoryData(id: 1, name: "Home Interior"),
-    CategoryData(id: 2, name: "Home Exterior")
+  List<CategoryData> homeInteriorList = [
+    CategoryData(id: 1, name: "HVAC System"),
+    CategoryData(id: 2, name: "Plumbing"),
+    CategoryData(id: 3, name: "Elecritical"),
+  ];
+    List<CategoryData> homeExteriorList = [
+    CategoryData(id: 1, name: "Yard"),
+    CategoryData(id: 2, name: "Pool"),
+    CategoryData(id: 3, name: "Gutters"),
   ];
 
   Future<List<ServiceData>>? futureService;
@@ -138,12 +144,12 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                 style: boldTextStyle(size: LABEL_TEXT_SIZE))
             .paddingLeft(16),
         HorizontalList(
-          itemCount: categoryList.length, // list.validate().length,
+          itemCount: widget.categoryName == "Home Interior" ? homeInteriorList.length : widget.categoryName == "Home Exterior" ? homeExteriorList.length : [].length, // list.validate().length,
           padding: EdgeInsets.only(left: 16, right: 16),
           runSpacing: 8,
           spacing: 12,
           itemBuilder: (_, index) {
-            CategoryData data = categoryList[index];
+            CategoryData data = widget.categoryName == "Home Interior" ? homeInteriorList[index] : widget.categoryName == "Home Exterior" ? homeExteriorList[index]: homeExteriorList[index];
 
             return Observer(
               builder: (_) {
@@ -151,10 +157,11 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
 
                 return GestureDetector(
                   onTap: () {
-                    ViewAllServiceScreenOne(
+                    ViewAllServiceScreenTwo(
                       categoryId: data.id.validate(),
                       categoryName: data.name,
                       isFromCategory: true,
+                      mainCategoryName: data.name,
                     ).launch(context);
 
                     // filterStore.setSelectedSubCategory(catId: index);

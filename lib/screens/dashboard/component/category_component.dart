@@ -57,7 +57,11 @@ class CategoryComponentState extends State<CategoryComponent> {
             CategoryData data = widget.categoryList![i];
             return GestureDetector(
               onTap: () {
-                ViewAllServiceScreen(categoryId: data.id.validate(), categoryName: data.name, isFromCategory: true).launch(context);
+                ViewAllServiceScreen(
+                        categoryId: data.id.validate(),
+                        categoryName: data.name,
+                        isFromCategory: true)
+                    .launch(context);
               },
               child: CategoryWidget(categoryData: data),
             );
