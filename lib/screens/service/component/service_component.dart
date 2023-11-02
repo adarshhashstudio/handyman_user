@@ -176,27 +176,27 @@ class ServiceComponentState extends State<ServiceComponent> {
                         widget.onUpdate?.call();
                       }),
                     ),
-                  Positioned(
-                    bottom: 12,
-                    right: 8,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: boxDecorationWithShadow(
-                        backgroundColor: primaryColor,
-                        borderRadius: radius(24),
-                        border: Border.all(color: context.cardColor, width: 2),
-                      ),
-                      child: PriceWidget(
-                        price: widget.serviceData!.price.validate(),
-                        isHourlyService: widget.serviceData!.isHourlyService,
-                        color: Colors.white,
-                        hourlyTextColor: Colors.white,
-                        size: 14,
-                        isFreeService: widget.serviceData!.type.validate() ==
-                            SERVICE_TYPE_FREE,
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: 12,
+                  //   right: 8,
+                  //   child: Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  //     decoration: boxDecorationWithShadow(
+                  //       backgroundColor: primaryColor,
+                  //       borderRadius: radius(24),
+                  //       border: Border.all(color: context.cardColor, width: 2),
+                  //     ),
+                  //     child: PriceWidget(
+                  //       price: widget.serviceData!.price.validate(),
+                  //       isHourlyService: widget.serviceData!.isHourlyService,
+                  //       color: Colors.white,
+                  //       hourlyTextColor: Colors.white,
+                  //       size: 14,
+                  //       isFreeService: widget.serviceData!.type.validate() ==
+                  //           SERVICE_TYPE_FREE,
+                  //     ),
+                  //   ),
+                  // ),
                   Positioned(
                     bottom: 0,
                     left: 16,

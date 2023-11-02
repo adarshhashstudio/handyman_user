@@ -10,6 +10,7 @@ import 'package:booking_system_flutter/model/provider_info_response.dart';
 import 'package:booking_system_flutter/model/remote_config_data_model.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
+import 'package:booking_system_flutter/model/service_response.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/screens/blog/model/blog_detail_response.dart';
 import 'package:booking_system_flutter/screens/blog/model/blog_response_model.dart';
@@ -34,93 +35,6 @@ import 'model/booking_data_model.dart';
 import 'model/booking_status_model.dart';
 import 'model/category_model.dart';
 import 'model/dashboard_model.dart';
-
-List<ServiceData> globalServiceList = [
-  ServiceData(
-    id: 1,
-    name: "Air Condition",
-    serviceId: 1,
-    price: 123.9,
-  ),
-  ServiceData(
-    id: 2,
-    name: "Heat Pump",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 3,
-    name: "Mini Split",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 4,
-    name: "kitchen plumbing",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 5,
-    name: "Toilet Plumbing",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 6,
-    name: "TV",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 7,
-    name: "Fridge",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 8,
-    name: "Fan",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 9,
-    name: "Tree clearing",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 10,
-    name: "Gardren Cleaning",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 11,
-    name: "Lighting",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 12,
-    name: "Pool Construction",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 13,
-    name: "Gutters Cleaning",
-    serviceId: 2,
-    price: 153.9,
-  ),
-  ServiceData(
-    id: 14,
-    name: "Gutters Repair / install",
-    serviceId: 2,
-    price: 153.9,
-  ),
-];
 
 //region Mobx Stores
 AppStore appStore = AppStore();
@@ -156,6 +70,8 @@ List<(int providerId, ProviderInfoResponse list)?> cachedProviderList = [];
 List<(int categoryId, List<CategoryData> list)?> cachedSubcategoryList = [];
 List<(int bookingId, BookingDetailResponse list)?> cachedBookingDetailList = [];
 //endregion
+
+ServiceResponse? globalServiceResponse;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

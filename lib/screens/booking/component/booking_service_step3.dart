@@ -64,9 +64,14 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
       appliedCouponData = null;
       setPrice();
 
-      toast("This coupon can't be applied"); ///TODO String translation
+      toast("This coupon can't be applied");
+
+      ///TODO String translation
     } else {
-      advancePaymentAmount = (bookingAmountModel.finalGrandTotalAmount * (widget.data.serviceDetail!.advancePaymentPercentage.validate() / 100).toStringAsFixed(DECIMAL_POINT).toDouble());
+      advancePaymentAmount = (bookingAmountModel.finalGrandTotalAmount *
+          (widget.data.serviceDetail!.advancePaymentPercentage.validate() / 100)
+              .toStringAsFixed(DECIMAL_POINT)
+              .toDouble());
     }
     setState(() {});
   }
@@ -104,7 +109,8 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(language.priceDetail, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+          Text(language.priceDetail,
+              style: boldTextStyle(size: LABEL_TEXT_SIZE)),
           16.height,
           Container(
             padding: EdgeInsets.all(16),
@@ -115,33 +121,51 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                 /// Service or Package Price
                 Row(
                   children: [
-                    Text(language.lblPrice, style: secondaryTextStyle(size: 14)).expand(),
+                    Text(language.lblPrice, style: secondaryTextStyle(size: 14))
+                        .expand(),
                     16.width,
                     if (widget.selectedPackage != null)
-                      PriceWidget(price: bookingAmountModel.finalTotalServicePrice, color: textPrimaryColorGlobal, isBoldText: true)
+                      PriceWidget(
+                          price: bookingAmountModel.finalTotalServicePrice,
+                          color: textPrimaryColorGlobal,
+                          isBoldText: true)
                     else if (!widget.data.serviceDetail!.isHourlyService)
                       Marquee(
                         child: Row(
                           children: [
-                            PriceWidget(price: widget.data.serviceDetail!.price.validate(), size: 12, isBoldText: false, color: textSecondaryColorGlobal),
-                            Text(' * $itemCount  = ', style: secondaryTextStyle()),
-                            PriceWidget(price: bookingAmountModel.finalTotalServicePrice, color: textPrimaryColorGlobal),
+                            PriceWidget(
+                                price:
+                                    widget.data.serviceDetail!.price.validate(),
+                                size: 12,
+                                isBoldText: false,
+                                color: textSecondaryColorGlobal),
+                            Text(' * $itemCount  = ',
+                                style: secondaryTextStyle()),
+                            PriceWidget(
+                                price:
+                                    bookingAmountModel.finalTotalServicePrice,
+                                color: textPrimaryColorGlobal),
                           ],
                         ),
                       )
                     else
-                      PriceWidget(price: bookingAmountModel.finalTotalServicePrice, color: textPrimaryColorGlobal, isBoldText: true)
+                      PriceWidget(
+                          price: bookingAmountModel.finalTotalServicePrice,
+                          color: textPrimaryColorGlobal,
+                          isBoldText: true)
                   ],
                 ),
 
                 /// Fix Discount on Base Price
-                if (widget.data.serviceDetail!.discount.validate() != 0 && widget.selectedPackage == null)
+                if (widget.data.serviceDetail!.discount.validate() != 0 &&
+                    widget.selectedPackage == null)
                   Column(
                     children: [
                       Divider(height: 26, color: context.dividerColor),
                       Row(
                         children: [
-                          Text(language.lblDiscount, style: secondaryTextStyle(size: 14)),
+                          Text(language.lblDiscount,
+                              style: secondaryTextStyle(size: 14)),
                           Text(
                             " (${widget.data.serviceDetail!.discount.validate()}% ${language.lblOff.toLowerCase()})",
                             style: boldTextStyle(color: Colors.green),
@@ -167,17 +191,20 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                           children: [
                             Row(
                               children: [
-                                Text(language.lblCoupon, style: secondaryTextStyle(size: 14)),
+                                Text(language.lblCoupon,
+                                    style: secondaryTextStyle(size: 14)),
                                 Text(
                                   " (${appliedCouponData!.code})",
-                                  style: boldTextStyle(color: primaryColor, size: 14),
+                                  style: boldTextStyle(
+                                      color: primaryColor, size: 14),
                                 ).onTap(() {
                                   applyCoupon();
                                 }).expand(),
                               ],
                             ).expand(),
                             PriceWidget(
-                              price: bookingAmountModel.finalCouponDiscountAmount,
+                              price:
+                                  bookingAmountModel.finalCouponDiscountAmount,
                               color: Colors.green,
                               isBoldText: true,
                             ),
@@ -186,10 +213,13 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                       if (appliedCouponData == null)
                         Row(
                           children: [
-                            Text(language.lblCoupon, style: secondaryTextStyle(size: 14)).expand(),
+                            Text(language.lblCoupon,
+                                    style: secondaryTextStyle(size: 14))
+                                .expand(),
                             Text(
                               language.applyCoupon,
-                              style: boldTextStyle(color: primaryColor, size: 14),
+                              style:
+                                  boldTextStyle(color: primaryColor, size: 14),
                             ).onTap(() {
                               applyCoupon();
                             }),
@@ -231,9 +261,13 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(language.lblSubTotal, style: secondaryTextStyle(size: 14)).flexible(fit: FlexFit.loose),
+                            Text(language.lblSubTotal,
+                                    style: secondaryTextStyle(size: 14))
+                                .flexible(fit: FlexFit.loose),
                             16.width,
-                            PriceWidget(price: bookingAmountModel.finalSubTotal, color: textPrimaryColorGlobal)
+                            PriceWidget(
+                                price: bookingAmountModel.finalSubTotal,
+                                color: textPrimaryColorGlobal)
                           ],
                         ),
                       ],
@@ -247,13 +281,20 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                       children: [
                         Row(
                           children: [
-                            Text(language.lblTax, style: secondaryTextStyle(size: 14)).expand(),
-                            Icon(Icons.info_outline_rounded, size: 20, color: context.primaryColor).onTap(
+                            Text(language.lblTax,
+                                    style: secondaryTextStyle(size: 14))
+                                .expand(),
+                            Icon(Icons.info_outline_rounded,
+                                    size: 20, color: context.primaryColor)
+                                .onTap(
                               () {
                                 showModalBottomSheet(
                                   context: context,
                                   builder: (_) {
-                                    return AppliedTaxListBottomSheet(taxes: widget.data.taxes.validate(), subTotal: bookingAmountModel.finalSubTotal);
+                                    return AppliedTaxListBottomSheet(
+                                        taxes: widget.data.taxes.validate(),
+                                        subTotal:
+                                            bookingAmountModel.finalSubTotal);
                                   },
                                 );
                               },
@@ -261,7 +302,10 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                           ],
                         ).expand(),
                         16.width,
-                        PriceWidget(price: bookingAmountModel.finalTotalTax, color: Colors.red, isBoldText: true),
+                        PriceWidget(
+                            price: bookingAmountModel.finalTotalTax,
+                            color: Colors.red,
+                            isBoldText: true),
                       ],
                     ),
                   ],
@@ -273,7 +317,9 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                     Divider(height: 26, color: context.dividerColor),
                     Row(
                       children: [
-                        Text(language.totalAmount, style: secondaryTextStyle(size: 14)).expand(),
+                        Text(language.totalAmount,
+                                style: secondaryTextStyle(size: 14))
+                            .expand(),
                         PriceWidget(
                           price: bookingAmountModel.finalGrandTotalAmount,
                           color: primaryColor,
@@ -293,11 +339,15 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                         children: [
                           Row(
                             children: [
-                              Text(language.advancePayAmount, style: secondaryTextStyle(size: 14)),
-                              Text(" (${widget.data.serviceDetail!.advancePaymentPercentage.validate().toString()}%)  ", style: boldTextStyle(color: Colors.green)),
+                              Text(language.advancePayAmount,
+                                  style: secondaryTextStyle(size: 14)),
+                              Text(
+                                  " (${widget.data.serviceDetail!.advancePaymentPercentage.validate().toString()}%)  ",
+                                  style: boldTextStyle(color: Colors.green)),
                             ],
                           ).expand(),
-                          PriceWidget(price: advancePaymentAmount, color: primaryColor),
+                          PriceWidget(
+                              price: advancePaymentAmount, color: primaryColor),
                         ],
                       ),
                     ],
@@ -313,19 +363,36 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
 
   Widget buildDateWidget() {
     if (widget.data.serviceDetail!.isSlotAvailable) {
-      return Text(widget.data.serviceDetail!.dateTimeVal.validate(), style: boldTextStyle(size: 12));
+      return Text(widget.data.serviceDetail!.dateTimeVal.validate(),
+          style: boldTextStyle(size: 12));
     }
-    return Text(formatDate(widget.data.serviceDetail!.dateTimeVal.validate(), format: DATE_FORMAT_3), style: boldTextStyle(size: 12));
+    return Text(
+        formatDate(widget.data.serviceDetail!.dateTimeVal.validate(),
+            format: DATE_FORMAT_3),
+        style: boldTextStyle(size: 12));
   }
 
   Widget buildTimeWidget() {
     if (widget.data.serviceDetail!.bookingSlot == null) {
-      return Text(formatDate(widget.data.serviceDetail!.dateTimeVal.validate(), format: HOUR_12_FORMAT), style: boldTextStyle(size: 12));
+      return Text(
+          formatDate(widget.data.serviceDetail!.dateTimeVal.validate(),
+              format: HOUR_12_FORMAT),
+          style: boldTextStyle(size: 12));
     }
     return Text(
         TimeOfDay(
-          hour: widget.data.serviceDetail!.bookingSlot.validate().splitBefore(':').split(":").first.toInt(),
-          minute: widget.data.serviceDetail!.bookingSlot.validate().splitBefore(':').split(":").last.toInt(),
+          hour: widget.data.serviceDetail!.bookingSlot
+              .validate()
+              .splitBefore(':')
+              .split(":")
+              .first
+              .toInt(),
+          minute: widget.data.serviceDetail!.bookingSlot
+              .validate()
+              .splitBefore(':')
+              .split(":")
+              .last
+              .toInt(),
         ).format(context),
         style: boldTextStyle(size: 12));
   }
@@ -334,7 +401,8 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(language.bookingDateAndSlot, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        Text(language.bookingDateAndSlot,
+            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
         Container(
           padding: EdgeInsets.all(16),
@@ -382,11 +450,14 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Marquee(child: Text(widget.selectedPackage!.name.validate(), style: boldTextStyle())),
+                        Marquee(
+                            child: Text(widget.selectedPackage!.name.validate(),
+                                style: boldTextStyle())),
                         4.height,
                         Row(
                           children: [
-                            Text(language.includedServices, style: secondaryTextStyle()),
+                            Text(language.includedServices,
+                                style: secondaryTextStyle()),
                             8.width,
                             ic_info.iconImage(size: 20),
                           ],
@@ -395,7 +466,12 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                     ).expand(),
                     16.width,
                     CachedImageWidget(
-                      url: widget.selectedPackage!.imageAttachments.validate().isNotEmpty ? widget.selectedPackage!.imageAttachments!.first.validate() : '',
+                      url: widget.selectedPackage!.imageAttachments
+                              .validate()
+                              .isNotEmpty
+                          ? widget.selectedPackage!.imageAttachments!.first
+                              .validate()
+                          : '',
                       height: 60,
                       width: 60,
                       fit: BoxFit.cover,
@@ -408,13 +484,18 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                       context: context,
                       isScrollControlled: true,
                       isDismissible: true,
-                      shape: RoundedRectangleBorder(borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: radiusOnly(
+                              topLeft: defaultRadius, topRight: defaultRadius)),
                       builder: (_) {
                         return DraggableScrollableSheet(
                           initialChildSize: 0.50,
                           minChildSize: 0.2,
                           maxChildSize: 1,
-                          builder: (context, scrollController) => PackageInfoComponent(packageData: widget.selectedPackage!, scrollController: scrollController),
+                          builder: (context, scrollController) =>
+                              PackageInfoComponent(
+                                  packageData: widget.selectedPackage!,
+                                  scrollController: scrollController),
                         );
                       },
                     );
@@ -452,7 +533,8 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.data.serviceDetail!.name.validate(), style: boldTextStyle()),
+                        Text(widget.data.serviceDetail!.name.validate(),
+                            style: boldTextStyle()),
                         16.height,
                         if (widget.data.serviceDetail!.isFixedService)
                           Container(
@@ -464,14 +546,16 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.arrow_drop_down_sharp, size: 24).onTap(
+                                Icon(Icons.arrow_drop_down_sharp, size: 24)
+                                    .onTap(
                                   () {
                                     if (itemCount != 1) itemCount--;
                                     setPrice();
                                   },
                                 ),
                                 16.width,
-                                Text(itemCount.toString(), style: primaryTextStyle()),
+                                Text(itemCount.toString(),
+                                    style: primaryTextStyle()),
                                 16.width,
                                 Icon(Icons.arrow_drop_up_sharp, size: 24).onTap(
                                   () {
@@ -485,7 +569,12 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                       ],
                     ).expand(),
                     CachedImageWidget(
-                      url: widget.data.serviceDetail!.attachments.validate().isNotEmpty ? widget.data.serviceDetail!.attachments!.first.validate() : '',
+                      url: widget.data.serviceDetail!.attachments
+                              .validate()
+                              .isNotEmpty
+                          ? widget.data.serviceDetail!.attachments!.first
+                              .validate()
+                          : '',
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
@@ -497,33 +586,41 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
             16.height,
             buildBookingSummaryWidget(),
             16.height,
-            priceWidget(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Observer(builder: (context) {
-                  return WalletBalanceComponent().visible(appStore.isEnableUserWallet && widget.data.serviceDetail!.isFixedService);
-                }),
-                16.height,
-                Text(language.disclaimer, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                Text(language.disclaimerContent, style: secondaryTextStyle()),
-              ],
-            ).paddingSymmetric(vertical: 16),
+            // priceWidget(),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Observer(builder: (context) {
+            //       return WalletBalanceComponent().visible(
+            //           appStore.isEnableUserWallet &&
+            //               widget.data.serviceDetail!.isFixedService);
+            //     }),
+            //     16.height,
+            //     Text(language.disclaimer,
+            //         style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+            //     Text(language.disclaimerContent, style: secondaryTextStyle()),
+            //   ],
+            // ).paddingSymmetric(vertical: 16),
             36.height,
             Row(
               children: [
                 AppButton(
                   onTap: () {
-                    customStepperController.previousPage(duration: 200.milliseconds, curve: Curves.easeInOut);
+                    customStepperController.previousPage(
+                        duration: 200.milliseconds, curve: Curves.easeInOut);
                   },
-                  shapeBorder: RoundedRectangleBorder(borderRadius: radius(), side: BorderSide(color: context.primaryColor)),
+                  shapeBorder: RoundedRectangleBorder(
+                      borderRadius: radius(),
+                      side: BorderSide(color: context.primaryColor)),
                   text: language.lblPrevious,
                   textColor: textPrimaryColorGlobal,
                 ).expand(flex: 1),
                 16.width,
                 AppButton(
                   color: context.primaryColor,
-                  text: widget.data.serviceDetail!.isAdvancePayment ? language.advancePayment : language.confirm,
+                  text: widget.data.serviceDetail!.isAdvancePayment
+                      ? language.advancePayment
+                      : language.confirm,
                   textColor: Colors.white,
                   onTap: () {
                     showInDialog(
@@ -531,15 +628,19 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                       builder: (p0) {
                         return ConfirmBookingDialog(
                           data: widget.data,
-                          bookingPrice: bookingAmountModel.finalGrandTotalAmount,
+                          bookingPrice:
+                              bookingAmountModel.finalGrandTotalAmount,
                           selectedPackage: widget.selectedPackage,
                           qty: itemCount,
                           couponCode: appliedCouponData?.code,
                           bookingAmountModel: BookingAmountModel(
-                            finalCouponDiscountAmount: bookingAmountModel.finalCouponDiscountAmount,
-                            finalDiscountAmount: bookingAmountModel.finalDiscountAmount,
+                            finalCouponDiscountAmount:
+                                bookingAmountModel.finalCouponDiscountAmount,
+                            finalDiscountAmount:
+                                bookingAmountModel.finalDiscountAmount,
                             finalSubTotal: bookingAmountModel.finalSubTotal,
-                            finalTotalServicePrice: bookingAmountModel.finalTotalServicePrice,
+                            finalTotalServicePrice:
+                                bookingAmountModel.finalTotalServicePrice,
                             finalTotalTax: bookingAmountModel.finalTotalTax,
                           ),
                         );

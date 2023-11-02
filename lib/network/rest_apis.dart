@@ -806,6 +806,12 @@ Future<ServiceResponse> getMyServiceList() async {
 }
 //endregion
 
+//region Get My Service List API
+Future<ServiceResponse> getAllServices() async {
+  return ServiceResponse.fromJson(await handleResponse(await buildHttpResponse('service-list?per_page=all', method: HttpMethodType.GET)));
+}
+//endregion
+
 //region Get My post job
 
 Future<BaseResponseModel> savePostJob(Map request) async {

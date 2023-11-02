@@ -57,6 +57,7 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
         name: "Home Exterior",
         categoryImage: "assets/images/home_exterior.jpg")
   ];
+  String globalTextField = '';
 
   Future<List<ServiceData>>? futureService;
 
@@ -88,10 +89,11 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
 
   void filterServices(String searchText) {
     if (searchText.isEmpty) {
+      globalTextField = '';
       filteredServiceList = []; // Show all data
     } else {
-      filteredServiceList = globalServiceList.where((service) {
-        // Check if the service name contains the search text (case-insensitive).
+      filteredServiceList =
+          globalServiceResponse!.serviceList!.where((service) {
         return service.name!.toLowerCase().contains(searchText.toLowerCase());
       }).toList();
     }
@@ -104,7 +106,7 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
   void fetchAllServiceData() async {
     futureService = searchServiceAPI(
       page: page,
-      list: globalServiceList,
+      list: globalServiceResponse!.serviceList!,
       categoryId: widget.categoryId != null
           ? widget.categoryId.validate().toString()
           : filterStore.categoryId.join(','),
@@ -410,6 +412,7 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                       // appStore.setLoading(true);
 
                       // fetchAllServiceData();
+                      globalTextField = s;
                       filterServices(s);
                       setState(() {});
                     },
@@ -496,6 +499,17 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                 //   },
                 // onSuccess: (data) {
                 //   return
+                if (globalTextField != '' && filteredServiceList.isEmpty)
+                  NoDataWidget(
+                    title: language.lblNoServicesFound,
+                    subTitle: (searchCont.text.isNotEmpty ||
+                            filterStore.providerId.isNotEmpty ||
+                            filterStore.categoryId.isNotEmpty)
+                        ? language.noDataFoundInFilter
+                        : null,
+                    imageWidget: EmptyStateWidget(),
+                  ),
+
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -43,6 +43,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
         isCurrentLocation: appStore.isCurrentLocation,
         lat: getDoubleAsync(LATITUDE),
         long: getDoubleAsync(LONGITUDE));
+    globalServiceResponse = await getAllServices();
   }
 
   @override
