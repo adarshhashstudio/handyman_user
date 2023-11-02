@@ -109,11 +109,15 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                   // ServiceListComponent(serviceList: snap.service.validate()),
                   CategoryComponent(categoryList: [
                     CategoryData(
-                        id: 1, description: "Home Repair", name: "Home Repair"),
+                        id: 1,
+                        description: "Home Repair",
+                        name: "Home Repair",
+                        categoryImage: "assets/images/home_repair.jpeg"),
                     CategoryData(
                         id: 2,
                         description: "Concierge Services",
-                        name: "Concierge Services")
+                        name: "Concierge Services",
+                        categoryImage: "assets/images/concirge.jpeg")
                   ]),
                   32.height,
                   NewJobRequestComponent(),

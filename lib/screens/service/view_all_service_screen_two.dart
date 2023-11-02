@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/store/filter_store.dart';
@@ -28,7 +26,6 @@ class ViewAllServiceScreenTwo extends StatefulWidget {
   final bool isFromProvider;
   final bool isFromCategory;
   final int? providerId;
-  final String? mainCategoryName;
 
   ViewAllServiceScreenTwo({
     this.categoryId,
@@ -37,13 +34,11 @@ class ViewAllServiceScreenTwo extends StatefulWidget {
     this.isFromProvider = true,
     this.isFromCategory = false,
     this.providerId,
-    this.mainCategoryName,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ViewAllServiceScreenTwo> createState() =>
-      _ViewAllServiceScreenTwoState();
+  State<ViewAllServiceScreenTwo> createState() => _ViewAllServiceScreenTwoState();
 }
 
 class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
@@ -51,8 +46,7 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
   List<CategoryData> categoryList = [];
 
   Future<List<ServiceData>>? futureService;
-
-  List<ServiceData> filteredServiceList = [];
+  List<ServiceData> serviceList = [];
 
   FocusNode myFocusNode = FocusNode();
   TextEditingController searchCont = TextEditingController();
@@ -70,165 +64,10 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
   }
 
   void init() async {
-    // fetchAllServiceData();
+    fetchAllServiceData();
 
-    // if (widget.categoryId != null) {
-    //   fetchCategoryList();
-    // }
-    filterServices("");
-  }
-
-  List<ServiceData> havcSystemList = [
-    ServiceData(
-      id: 1,
-      name: "Air Condition",
-      description: "Air Condition Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-    ServiceData(
-      id: 2,
-      name: "Heat Pump",
-      description: "Heat Pump Repair / install",
-      serviceId: 2,
-      price: 153.9,
-    ),
-    ServiceData(
-      id: 3,
-      name: "Mini Split",
-      description: "Mini Split Repair / install",
-      serviceId: 2,
-      price: 753.9,
-    ),
-  ];
-  List<ServiceData> plumbingList = [
-    ServiceData(
-      id: 1,
-      name: "Kitchen plumbing",
-      description: "Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-    ServiceData(
-      id: 2,
-      name: "Toilet Plumbing",
-      description: "Repair / install",
-      serviceId: 2,
-      price: 153.9,
-    ),
-  ];
-  List<ServiceData> elecriticalList = [
-    ServiceData(
-      id: 1,
-      name: "TV",
-      description: "Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-    ServiceData(
-      id: 2,
-      name: "Fridge",
-      description: "Repair / install",
-      serviceId: 2,
-      price: 153.9,
-    ),
-    ServiceData(
-      id: 3,
-      name: "Fan",
-      description: "Repair / install",
-      serviceId: 2,
-      price: 14.9,
-    ),
-  ];
-  List<ServiceData> yardList = [
-    ServiceData(
-      id: 1,
-      name: "Tree clearing",
-      description: "Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-    ServiceData(
-      id: 2,
-      name: "Gardren Cleaning",
-      description: "Repair / install",
-      serviceId: 2,
-      price: 153.9,
-    ),
-    ServiceData(
-      id: 3,
-      name: "Lighting",
-      description: "Repair / install",
-      serviceId: 2,
-      price: 14.9,
-    ),
-  ];
-  List<ServiceData> poolList = [
-    ServiceData(
-      id: 1,
-      name: "Pool Construction",
-      description: "Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-  ];
-  List<ServiceData> gluttersList = [
-    ServiceData(
-      id: 1,
-      name: "Gutters Cleaning",
-      description: "Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-    ServiceData(
-      id: 1,
-      name: "Gutters Repair / install",
-      description: "Repair / install",
-      serviceId: 1,
-      price: 123.9,
-    ),
-  ];
-
-  void filterServices(String searchText) {
-    debugPrint(
-        "check data is coming : ${widget.mainCategoryName}, ${havcSystemList[0].name}");
-    if (searchText.isEmpty) {
-      setState(() {
-        filteredServiceList = List.from(widget.mainCategoryName == "HVAC System"
-            ? havcSystemList
-            : widget.mainCategoryName == "Plumbing"
-                ? plumbingList
-                : widget.mainCategoryName == "Elecritical"
-                    ? elecriticalList
-                    : widget.mainCategoryName == "Yard"
-                        ? yardList
-                        : widget.mainCategoryName == "Pool"
-                            ? poolList
-                            : widget.mainCategoryName == "Gutters"
-                                ? gluttersList
-                                : []); // Show all data
-      });
-    } else {
-      setState(() {
-        List<ServiceData> serviceListing =
-            List.from(widget.mainCategoryName == "HVAC System"
-                ? havcSystemList
-                : widget.mainCategoryName == "Plumbing"
-                    ? plumbingList
-                    : widget.mainCategoryName == "Elecritical"
-                        ? elecriticalList
-                        : widget.mainCategoryName == "Yard"
-                            ? yardList
-                            : widget.mainCategoryName == "Pool"
-                                ? poolList
-                                : widget.mainCategoryName == "Gutters"
-                                    ? gluttersList
-                                    : []);
-        filteredServiceList = serviceListing.where((service) {
-          // Check if the service name contains the search text (case-insensitive).
-          return service.name!.toLowerCase().contains(searchText.toLowerCase());
-        }).toList();
-      });
+    if (widget.categoryId != null) {
+      fetchCategoryList();
     }
   }
 
@@ -239,14 +78,10 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
   void fetchAllServiceData() async {
     futureService = searchServiceAPI(
       page: page,
-      list: filteredServiceList,
-      categoryId: widget.categoryId != null
-          ? widget.categoryId.validate().toString()
-          : filterStore.categoryId.join(','),
+      list: serviceList,
+      categoryId: widget.categoryId != null ? widget.categoryId.validate().toString() : filterStore.categoryId.join(','),
       subCategory: subCategory != null ? subCategory.validate().toString() : '',
-      providerId: widget.providerId != null
-          ? widget.providerId.toString()
-          : filterStore.providerId.join(","),
+      providerId: widget.providerId != null ? widget.providerId.toString() : filterStore.providerId.join(","),
       isPriceMin: filterStore.isPriceMin,
       isPriceMax: filterStore.isPriceMax,
       search: searchCont.text,
@@ -272,10 +107,7 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
   Widget subCategoryWidget() {
     return SnapHelperWidget<List<CategoryData>>(
       future: futureCategory,
-      initialData: cachedSubcategoryList
-          .firstWhere((element) => element?.$1 == widget.categoryId.validate(),
-              orElse: () => null)
-          ?.$2,
+      initialData: cachedSubcategoryList.firstWhere((element) => element?.$1 == widget.categoryId.validate(), orElse: () => null)?.$2,
       loadingWidget: Offstage(),
       onSuccess: (list) {
         if (list.length == 1) return Offstage();
@@ -285,21 +117,18 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
           mainAxisSize: MainAxisSize.min,
           children: [
             16.height,
-            Text(language.lblSubcategories,
-                    style: boldTextStyle(size: LABEL_TEXT_SIZE))
-                .paddingLeft(16),
+            Text(language.lblSubcategories, style: boldTextStyle(size: LABEL_TEXT_SIZE)).paddingLeft(16),
             HorizontalList(
-              itemCount: categoryList.length, // list.validate().length,
+              itemCount: list.validate().length,
               padding: EdgeInsets.only(left: 16, right: 16),
               runSpacing: 8,
               spacing: 12,
               itemBuilder: (_, index) {
-                CategoryData data = categoryList[index];
+                CategoryData data = list[index];
 
                 return Observer(
                   builder: (_) {
-                    bool isSelected =
-                        filterStore.selectedSubCategoryId == index;
+                    bool isSelected = filterStore.selectedSubCategoryId == index;
 
                     return GestureDetector(
                       onTap: () {
@@ -325,13 +154,9 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                                   Container(
                                     height: CATEGORY_ICON_SIZE,
                                     width: CATEGORY_ICON_SIZE,
-                                    decoration: BoxDecoration(
-                                        color: context.cardColor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: grey)),
+                                    decoration: BoxDecoration(color: context.cardColor, shape: BoxShape.circle, border: Border.all(color: grey)),
                                     alignment: Alignment.center,
-                                    child: Text(data.name.validate(),
-                                        style: boldTextStyle(size: 12)),
+                                    child: Text(data.name.validate(), style: boldTextStyle(size: 12)),
                                   ),
                                 if (index != 0)
                                   data.categoryImage.validate().endsWith('.svg')
@@ -339,30 +164,18 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                                           width: CATEGORY_ICON_SIZE,
                                           height: CATEGORY_ICON_SIZE,
                                           padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                              color: context.cardColor,
-                                              shape: BoxShape.circle),
+                                          decoration: BoxDecoration(color: context.cardColor, shape: BoxShape.circle),
                                           child: SvgPicture.network(
                                             data.categoryImage.validate(),
                                             height: CATEGORY_ICON_SIZE,
                                             width: CATEGORY_ICON_SIZE,
-                                            color: appStore.isDarkMode
-                                                ? Colors.white
-                                                : data.color
-                                                    .validate(value: '000')
-                                                    .toColor(),
-                                            placeholderBuilder: (context) =>
-                                                PlaceHolderWidget(
-                                                    height: CATEGORY_ICON_SIZE,
-                                                    width: CATEGORY_ICON_SIZE,
-                                                    color: transparentColor),
+                                            color: appStore.isDarkMode ? Colors.white : data.color.validate(value: '000').toColor(),
+                                            placeholderBuilder: (context) => PlaceHolderWidget(height: CATEGORY_ICON_SIZE, width: CATEGORY_ICON_SIZE, color: transparentColor),
                                           ),
                                         )
                                       : Container(
                                           padding: EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                              color: context.cardColor,
-                                              shape: BoxShape.circle),
+                                          decoration: BoxDecoration(color: context.cardColor, shape: BoxShape.circle),
                                           child: CachedImageWidget(
                                             url: data.categoryImage.validate(),
                                             fit: BoxFit.fitWidth,
@@ -372,17 +185,8 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                                           ),
                                         ),
                                 4.height,
-                                if (index == 0)
-                                  Text(language.lblViewAll,
-                                      style: boldTextStyle(size: 12),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1),
-                                if (index != 0)
-                                  Marquee(
-                                      child: Text('${data.name.validate()}',
-                                          style: boldTextStyle(size: 12),
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1)),
+                                if (index == 0) Text(language.lblViewAll, style: boldTextStyle(size: 12), textAlign: TextAlign.center, maxLines: 1),
+                                if (index != 0) Marquee(child: Text('${data.name.validate()}', style: boldTextStyle(size: 12), textAlign: TextAlign.center, maxLines: 1)),
                               ],
                             ),
                             Positioned(
@@ -390,10 +194,8 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                               right: 0,
                               child: Container(
                                 padding: EdgeInsets.all(2),
-                                decoration: boxDecorationDefault(
-                                    color: context.primaryColor),
-                                child: Icon(Icons.done,
-                                    size: 16, color: Colors.white),
+                                decoration: boxDecorationDefault(color: context.primaryColor),
+                                child: Icon(Icons.done, size: 16, color: Colors.white),
                               ).visible(isSelected),
                             )
                           ],
@@ -447,9 +249,8 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                         searchCont.clear();
                         filterStore.setSearch('');
 
-                        // appStore.setLoading(true);
-                        // fetchAllServiceData();
-                        filterServices("");
+                        appStore.setLoading(true);
+                        fetchAllServiceData();
                         setState(() {});
                       },
                     ).visible(searchCont.text.isNotEmpty),
@@ -457,10 +258,9 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                       page = 1;
 
                       filterStore.setSearch(s);
-                      // appStore.setLoading(true);
+                      appStore.setLoading(true);
 
-                      // fetchAllServiceData();
-                      filterServices(s);
+                      fetchAllServiceData();
                       setState(() {});
                     },
                     decoration: inputDecoration(context).copyWith(
@@ -472,8 +272,7 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                   16.width,
                   Container(
                     padding: EdgeInsets.all(10),
-                    decoration:
-                        boxDecorationDefault(color: context.primaryColor),
+                    decoration: boxDecorationDefault(color: context.primaryColor),
                     child: CachedImageWidget(
                       url: ic_filter,
                       height: 26,
@@ -483,16 +282,12 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                   ).onTap(() {
                     hideKeyboard(context);
 
-                    FilterScreen(
-                            isFromProvider: widget.isFromProvider,
-                            isFromCategory: widget.isFromCategory)
-                        .launch(context)
-                        .then((value) {
+                    FilterScreen(isFromProvider: widget.isFromProvider, isFromCategory: widget.isFromCategory).launch(context).then((value) {
                       if (value != null) {
                         page = 1;
-                        // appStore.setLoading(true);
+                        appStore.setLoading(true);
 
-                        // fetchAllServiceData();
+                        fetchAllServiceData();
                         setState(() {});
                       }
                     });
@@ -503,80 +298,68 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
             AnimatedScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               onSwipeRefresh: () {
-                // page = 1;
+                page = 1;
 
-                // appStore.setLoading(true);
-                // fetchAllServiceData();
-                // setState(() {});
+                appStore.setLoading(true);
+                fetchAllServiceData();
+                setState(() {});
 
                 return Future.value(false);
               },
               onNextPage: () {
-                // if (!isLastPage) {
-                //   page++;
+                if (!isLastPage) {
+                  page++;
 
-                //   appStore.setLoading(true);
-                //   fetchAllServiceData();
-                //   setState(() {});
-                // }
+                  appStore.setLoading(true);
+                  fetchAllServiceData();
+                  setState(() {});
+                }
               },
               children: [
                 if (widget.categoryId != null) subCategoryWidget(),
                 16.height,
-                // SnapHelperWidget(
-                //   future: futureService,
-                //   loadingWidget: LoaderWidget(),
-                //   errorBuilder: (p0) {
-                //     return NoDataWidget(
-                //       title: p0,
-                //       retryText: language.reload,
-                //       imageWidget: ErrorStateWidget(),
-                //       onRetry: () {
-                //         page = 1;
-                //         appStore.setLoading(true);
+                SnapHelperWidget(
+                  future: futureService,
+                  loadingWidget: LoaderWidget(),
+                  errorBuilder: (p0) {
+                    return NoDataWidget(
+                      title: p0,
+                      retryText: language.reload,
+                      imageWidget: ErrorStateWidget(),
+                      onRetry: () {
+                        page = 1;
+                        appStore.setLoading(true);
 
-                //         fetchAllServiceData();
-                //         setState(() {});
-                //       },
-                //     );
-                //   },
-                //   onSuccess: (data) {
-                //     return
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(language.service,
-                            style: boldTextStyle(size: LABEL_TEXT_SIZE))
-                        .paddingSymmetric(horizontal: 16),
-                    AnimatedListView(
-                      itemCount:
-                          filteredServiceList.length, // serviceList.length,
-                      listAnimationType: ListAnimationType.FadeIn,
-                      fadeInConfiguration:
-                          FadeInConfiguration(duration: 2.seconds),
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      // emptyWidget: NoDataWidget(
-                      //   title: language.lblNoServicesFound,
-                      //   subTitle: (searchCont.text.isNotEmpty ||
-                      //           filterStore.providerId.isNotEmpty ||
-                      //           filterStore.categoryId.isNotEmpty)
-                      //       ? language.noDataFoundInFilter
-                      //       : null,
-                      //   imageWidget: EmptyStateWidget(),
-                      // ),
-                      itemBuilder: (_, index) {
-                        return ServiceComponent(
-                                serviceData: filteredServiceList[index])
-                            .paddingAll(8);
+                        fetchAllServiceData();
+                        setState(() {});
                       },
-                    ).paddingAll(8),
-                  ],
-                )
-                // ;
-                //   },
-                // ),
+                    );
+                  },
+                  onSuccess: (data) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(language.service, style: boldTextStyle(size: LABEL_TEXT_SIZE)).paddingSymmetric(horizontal: 16),
+                        AnimatedListView(
+                          itemCount: serviceList.length,
+                          listAnimationType: ListAnimationType.FadeIn,
+                          fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          emptyWidget: NoDataWidget(
+                            title: language.lblNoServicesFound,
+                            subTitle: (searchCont.text.isNotEmpty || filterStore.providerId.isNotEmpty || filterStore.categoryId.isNotEmpty) ? language.noDataFoundInFilter : null,
+                            imageWidget: EmptyStateWidget(),
+                          ),
+                          itemBuilder: (_, index) {
+                            return ServiceComponent(serviceData: serviceList[index]).paddingAll(8);
+                          },
+                        ).paddingAll(8),
+                      ],
+                    );
+                  },
+                ),
               ],
             ).expand(),
           ],

@@ -48,14 +48,20 @@ class ViewAllServiceScreenOne extends StatefulWidget {
 class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
   Future<List<CategoryData>>? futureCategory;
   List<CategoryData> homeInteriorList = [
-    CategoryData(id: 1, name: "HVAC System"),
-    CategoryData(id: 2, name: "Plumbing"),
-    CategoryData(id: 3, name: "Elecritical"),
+    CategoryData(
+        id: 9, name: "HVAC System", categoryImage: "assets/images/havc.png"),
+    CategoryData(
+        id: 10, name: "Plumbing", categoryImage: "assets/images/plumbing.png"),
+    CategoryData(
+        id: 11,
+        name: "Elecritical",
+        categoryImage: "assets/images/electric.png"),
   ];
-    List<CategoryData> homeExteriorList = [
-    CategoryData(id: 1, name: "Yard"),
-    CategoryData(id: 2, name: "Pool"),
-    CategoryData(id: 3, name: "Gutters"),
+  List<CategoryData> homeExteriorList = [
+    CategoryData(id: 12, name: "Yard", categoryImage: "assets/images/yard.jpg"),
+    CategoryData(id: 13, name: "Pool", categoryImage: "assets/images/pool.png"),
+    CategoryData(
+        id: 14, name: "Gutters", categoryImage: "assets/images/gutters.jpg"),
   ];
 
   Future<List<ServiceData>>? futureService;
@@ -134,140 +140,84 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
     }
   }
 
-  Widget staticSubCategoryWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        16.height,
-        Text(language.lblSubcategories,
-                style: boldTextStyle(size: LABEL_TEXT_SIZE))
-            .paddingLeft(16),
-        HorizontalList(
-          itemCount: widget.categoryName == "Home Interior" ? homeInteriorList.length : widget.categoryName == "Home Exterior" ? homeExteriorList.length : [].length, // list.validate().length,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          runSpacing: 8,
-          spacing: 12,
-          itemBuilder: (_, index) {
-            CategoryData data = widget.categoryName == "Home Interior" ? homeInteriorList[index] : widget.categoryName == "Home Exterior" ? homeExteriorList[index]: homeExteriorList[index];
+  Widget gridSubCategoryWidget() {
+    return GridView.builder(
+      shrinkWrap: true,
+      itemCount: widget.categoryName == "Home Interior"
+          ? homeInteriorList.length
+          : widget.categoryName == "Home Exterior"
+              ? homeExteriorList.length
+              : [].length, // list.validate().length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemBuilder: (context, index) {
+        CategoryData data = widget.categoryName == "Home Interior"
+            ? homeInteriorList[index]
+            : widget.categoryName == "Home Exterior"
+                ? homeExteriorList[index]
+                : homeExteriorList[index];
+        return GestureDetector(
+          onTap: () {
+            ViewAllServiceScreenTwo(
+              categoryId: data.id.validate(),
+              categoryName: data.name,
+              isFromCategory: true,
+            ).launch(context);
 
-            return Observer(
-              builder: (_) {
-                // bool isSelected = filterStore.selectedSubCategoryId == index;
+            // filterStore.setSelectedSubCategory(catId: index);
 
-                return GestureDetector(
-                  onTap: () {
-                    ViewAllServiceScreenTwo(
-                      categoryId: data.id.validate(),
-                      categoryName: data.name,
-                      isFromCategory: true,
-                      mainCategoryName: data.name,
-                    ).launch(context);
+            // subCategory = data.id;
+            // page = 1;
 
-                    // filterStore.setSelectedSubCategory(catId: index);
+            // appStore.setLoading(true);
+            // fetchAllServiceData();
 
-                    // subCategory = data.id;
-                    // page = 1;
-
-                    // appStore.setLoading(true);
-                    // fetchAllServiceData();
-
-                    // setState(() {});
-                  },
-                  child: SizedBox(
-                    width: context.width() / 3 - 20,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Column(
-                          children: [
-                            16.height,
-                            // if (index == 0)
-                            //   Container(
-                            //     height: CATEGORY_ICON_SIZE,
-                            //     width: CATEGORY_ICON_SIZE,
-                            //     decoration: BoxDecoration(
-                            //         color: context.cardColor,
-                            //         shape: BoxShape.circle,
-                            //         border: Border.all(color: grey)),
-                            //     alignment: Alignment.center,
-                            //     child: Text(data.name.validate(),
-                            //         style: boldTextStyle(size: 12)),
-                            //   ),
-                            // if (index != 0)
-                            //   data.categoryImage.validate().endsWith('.svg')
-                            //       ? Container(
-                            //           width: CATEGORY_ICON_SIZE,
-                            //           height: CATEGORY_ICON_SIZE,
-                            //           padding: EdgeInsets.all(8),
-                            //           decoration: BoxDecoration(
-                            //               color: context.cardColor,
-                            //               shape: BoxShape.circle),
-                            //           child: SvgPicture.network(
-                            //             data.categoryImage.validate(),
-                            //             height: CATEGORY_ICON_SIZE,
-                            //             width: CATEGORY_ICON_SIZE,
-                            //             color: appStore.isDarkMode
-                            //                 ? Colors.white
-                            //                 : data.color
-                            //                     .validate(value: '000')
-                            //                     .toColor(),
-                            //             placeholderBuilder: (context) =>
-                            //                 PlaceHolderWidget(
-                            //                     height: CATEGORY_ICON_SIZE,
-                            //                     width: CATEGORY_ICON_SIZE,
-                            //                     color: transparentColor),
-                            //           ),
-                            //         )
-                            //       :
-                            Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  color: context.cardColor,
-                                  shape: BoxShape.circle),
-                              child: CachedImageWidget(
-                                url: data.categoryImage.validate(),
-                                fit: BoxFit.fitWidth,
-                                width: SUBCATEGORY_ICON_SIZE,
-                                height: SUBCATEGORY_ICON_SIZE,
-                                circle: true,
-                              ),
-                            ),
-                            4.height,
-                            // if (index == 0)
-                            //   Text(language.lblViewAll,
-                            //       style: boldTextStyle(size: 12),
-                            //       textAlign: TextAlign.center,
-                            //       maxLines: 1),
-                            // if (index != 0)
-                            Marquee(
-                                child: Text('${data.name.validate()}',
-                                    style: boldTextStyle(size: 12),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1)),
-                          ],
-                        ),
-                        // Positioned(
-                        //   top: 14,
-                        //   right: 0,
-                        //   child: Container(
-                        //     padding: EdgeInsets.all(2),
-                        //     decoration: boxDecorationDefault(
-                        //         color: context.primaryColor),
-                        //     child:
-                        //         Icon(Icons.done, size: 16, color: Colors.white),
-                        //   ).visible(isSelected),
-                        // )
-                      ],
+            // setState(() {});
+          },
+          child: Container(
+            margin: EdgeInsets.all(15.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Image.asset(
+                      data.categoryImage.toString(),
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
-                );
-              },
-            );
-          },
-        ),
-        16.height,
-      ],
+                  16.height,
+                  Center(
+                    child: Text(
+                      '${data.name}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ).paddingOnly(left: 8, right: 8),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -516,7 +466,7 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
                 if (!isLastPage) {
                   page++;
 
-                  appStore.setLoading(true);
+                  // appStore.setLoading(true);
                   // fetchAllServiceData();
                   // setState(() {});
                 }
@@ -525,7 +475,7 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
                 // if (widget.categoryId != null) subCategoryWidget(),
                 if (!widget.isFromSearch)
                   filteredServiceList.length == 0
-                      ? staticSubCategoryWidget()
+                      ? gridSubCategoryWidget()
                       : Container(),
                 16.height,
                 // SnapHelperWidget(

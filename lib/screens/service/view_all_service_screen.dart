@@ -48,8 +48,14 @@ class ViewAllServiceScreen extends StatefulWidget {
 class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
   Future<List<CategoryData>>? futureCategory;
   List<CategoryData> categoryList = [
-    CategoryData(id: 1, name: "Home Interior"),
-    CategoryData(id: 2, name: "Home Exterior")
+    CategoryData(
+        id: 1,
+        name: "Home Interior",
+        categoryImage: "assets/images/home_interior.jpg"),
+    CategoryData(
+        id: 2,
+        name: "Home Exterior",
+        categoryImage: "assets/images/home_exterior.jpg")
   ];
 
   Future<List<ServiceData>>? futureService;
@@ -137,7 +143,8 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
         Text(language.lblSubcategories,
                 style: boldTextStyle(size: LABEL_TEXT_SIZE))
             .paddingLeft(16),
-        HorizontalList(
+        16.height,
+        VerticalList(
           itemCount: categoryList.length, // list.validate().length,
           padding: EdgeInsets.only(left: 16, right: 16),
           runSpacing: 8,
@@ -167,92 +174,41 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
 
                     // setState(() {});
                   },
-                  child: SizedBox(
-                    width: context.width() / 3 - 20,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Column(
-                          children: [
-                            16.height,
-                            // if (index == 0)
-                            //   Container(
-                            //     height: CATEGORY_ICON_SIZE,
-                            //     width: CATEGORY_ICON_SIZE,
-                            //     decoration: BoxDecoration(
-                            //         color: context.cardColor,
-                            //         shape: BoxShape.circle,
-                            //         border: Border.all(color: grey)),
-                            //     alignment: Alignment.center,
-                            //     child: Text(data.name.validate(),
-                            //         style: boldTextStyle(size: 12)),
-                            //   ),
-                            // if (index != 0)
-                            //   data.categoryImage.validate().endsWith('.svg')
-                            //       ? Container(
-                            //           width: CATEGORY_ICON_SIZE,
-                            //           height: CATEGORY_ICON_SIZE,
-                            //           padding: EdgeInsets.all(8),
-                            //           decoration: BoxDecoration(
-                            //               color: context.cardColor,
-                            //               shape: BoxShape.circle),
-                            //           child: SvgPicture.network(
-                            //             data.categoryImage.validate(),
-                            //             height: CATEGORY_ICON_SIZE,
-                            //             width: CATEGORY_ICON_SIZE,
-                            //             color: appStore.isDarkMode
-                            //                 ? Colors.white
-                            //                 : data.color
-                            //                     .validate(value: '000')
-                            //                     .toColor(),
-                            //             placeholderBuilder: (context) =>
-                            //                 PlaceHolderWidget(
-                            //                     height: CATEGORY_ICON_SIZE,
-                            //                     width: CATEGORY_ICON_SIZE,
-                            //                     color: transparentColor),
-                            //           ),
-                            //         )
-                            //       :
-                            Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  color: context.cardColor,
-                                  shape: BoxShape.circle),
-                              child: CachedImageWidget(
-                                url: data.categoryImage.validate(),
-                                fit: BoxFit.fitWidth,
-                                width: SUBCATEGORY_ICON_SIZE,
-                                height: SUBCATEGORY_ICON_SIZE,
-                                circle: true,
-                              ),
-                            ),
-                            4.height,
-                            // if (index == 0)
-                            //   Text(language.lblViewAll,
-                            //       style: boldTextStyle(size: 12),
-                            //       textAlign: TextAlign.center,
-                            //       maxLines: 1),
-                            // if (index != 0)
-                            Marquee(
-                                child: Text('${data.name.validate()}',
-                                    style: boldTextStyle(size: 12),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1)),
-                          ],
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 150.0,
+                        width: context.width() * 0.89,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage(
+                                '${data.categoryImage}'), // Replace with your image path
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        // Positioned(
-                        //   top: 14,
-                        //   right: 0,
-                        //   child: Container(
-                        //     padding: EdgeInsets.all(2),
-                        //     decoration: boxDecorationDefault(
-                        //         color: context.primaryColor),
-                        //     child:
-                        //         Icon(Icons.done, size: 16, color: Colors.white),
-                        //   ).visible(isSelected),
-                        // )
-                      ],
-                    ),
+                      ),
+                      Container(
+                        height: 150.0,
+                        width: context.width() * 0.89,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          color: Colors.black
+                              .withOpacity(0.5), // Adjust the opacity as needed
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: Center(
+                          child: Text(
+                            '${data.name}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -507,9 +463,9 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
               },
               onNextPage: () {
                 if (!isLastPage) {
-                  page++;
+                  // page++;
 
-                  appStore.setLoading(true);
+                  // appStore.setLoading(true);
                   // fetchAllServiceData();
                   // setState(() {});
                 }

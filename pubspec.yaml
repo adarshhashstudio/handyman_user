@@ -78,7 +78,15 @@ dev_dependencies:
   build_runner: ^2.4.6
   mobx_codegen: ^2.3.0
   #flutter packages pub run build_runner build --delete-conflicting-outputs
+  flutter_launcher_icons: ^0.13.1
 
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/ic_launcher.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "assets/ic_launcher.png"
+  adaptive_icon_foreground: "assets/ic_launcher.png"
 flutter:
   uses-material-design: true
   assets:
@@ -88,4 +96,5 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/lottie/
+    - assets/services/
 

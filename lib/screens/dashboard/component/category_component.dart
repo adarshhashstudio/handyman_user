@@ -48,7 +48,7 @@ class CategoryComponentState extends State<CategoryComponent> {
             });
           },
         ).paddingSymmetric(horizontal: 16),
-        HorizontalList(
+        VerticalList(
           itemCount: widget.categoryList.validate().length,
           padding: EdgeInsets.only(left: 16, right: 16),
           runSpacing: 8,

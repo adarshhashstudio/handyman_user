@@ -11,7 +11,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="Handyman Service User"
+        android:label="K&amp;C Service User"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label">
         <activity
