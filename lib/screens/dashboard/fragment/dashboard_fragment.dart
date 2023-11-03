@@ -65,7 +65,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget('K&C Service',
+      appBar: appBarWidget('K&C Services',
           textColor: white,
           showBack: false,
           titleWidget: Row(
@@ -76,7 +76,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
               ),
               13.width,
               Text(
-                'K&C Service',
+                'K&C Services',
                 style: primaryTextStyle(
                     size: 20, weight: FontWeight.bold, color: white),
               )

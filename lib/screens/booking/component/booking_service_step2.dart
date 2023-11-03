@@ -37,7 +37,7 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
   DateTime? finalDate;
   TimeOfDay? pickedTime;
   bool isButtonClicked = false;
-  bool isNowButtonClicked = false;
+  bool isNowButtonClicked = true;
 
   @override
   void initState() {
@@ -46,7 +46,6 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
   }
 
   init() async {
-    addressCont.text = appStore.address;
     if (widget.data.serviceDetail!.dateTimeVal != null) {
       if (widget.isSlotAvailable.validate()) {
         dateTimeCont.text = formatDate(
@@ -58,6 +57,7 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
       }
       addressCont.text = widget.data.serviceDetail!.address.validate();
     }
+    setCurrentDateWithAdditional2Hours();
   }
 
   void selectDateAndTime(BuildContext context) async {
@@ -314,11 +314,12 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                         8.height,
                         AppTextField(
                           textFieldType: TextFieldType.ADDRESS,
-                          controller: addressCont,
+                          // controller: addressCont,
                           maxLines: 1,
                           onFieldSubmitted: (s) {
                             // widget.data.serviceDetail!.address = s;
                           },
+                          initialValue: appStore.address,
                           enabled: false,
                           decoration: inputDecoration(
                             context,
