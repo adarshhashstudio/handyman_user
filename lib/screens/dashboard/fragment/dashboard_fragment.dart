@@ -7,9 +7,14 @@ import 'package:booking_system_flutter/screens/dashboard/component/featured_serv
 import 'package:booking_system_flutter/screens/dashboard/component/service_list_component.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/slider_and_location_component.dart';
 import 'package:booking_system_flutter/screens/dashboard/shimmer/dashboard_shimmer.dart';
+import 'package:booking_system_flutter/screens/notification/notification_screen.dart';
+import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/utils/images.dart';
+import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../component/empty_error_state_widget.dart';
@@ -60,6 +65,65 @@ class _DashboardFragmentState extends State<DashboardFragment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBarWidget('K&C Service',
+          textColor: white,
+          showBack: false,
+          titleWidget: Row(
+            children: [
+              SvgPicture.asset(
+                "assets/icons/KandC-logo-dark.svg",
+                width: 50,
+              ),
+              13.width,
+              Text(
+                'K&C Service',
+                style: primaryTextStyle(
+                    size: 20, weight: FontWeight.bold, color: white),
+              )
+            ],
+          ),
+          textSize: APP_BAR_TEXT_SIZE,
+          elevation: 3.0,
+          color: context.primaryColor,
+          actions: [
+            if (appStore.isLoggedIn)
+              Container(
+                margin: EdgeInsets.only(right: 16),
+                decoration: boxDecorationDefault(
+                    color: context.cardColor, shape: BoxShape.circle),
+                height: 36,
+                padding: EdgeInsets.all(8),
+                width: 36,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    ic_notification
+                        .iconImage(size: 24, color: primaryColor)
+                        .center(),
+                    Observer(builder: (context) {
+                      return Positioned(
+                        top: -20,
+                        right: -10,
+                        child: appStore.unreadCount.validate() > 0
+                            ? Container(
+                                padding: EdgeInsets.all(4),
+                                child: FittedBox(
+                                  child: Text(appStore.unreadCount.toString(),
+                                      style: primaryTextStyle(
+                                          size: 12, color: Colors.white)),
+                                ),
+                                decoration: boxDecorationDefault(
+                                    color: Colors.red, shape: BoxShape.circle),
+                              )
+                            : Offstage(),
+                      );
+                    })
+                  ],
+                ),
+              ).onTap(() {
+                NotificationScreen().launch(context);
+              })
+          ]),
       body: Stack(
         children: [
           SnapHelperWidget<DashboardResponse>(
@@ -113,12 +177,12 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                         id: 1,
                         description: "Home Repair",
                         name: "Home Repair",
-                        categoryImage: "assets/images/home_repair.jpeg"),
+                        categoryImage: "assets/images/home-repair.png"),
                     CategoryData(
                         id: 2,
                         description: "Concierge Services",
                         name: "Concierge Services",
-                        categoryImage: "assets/images/concirge.jpeg")
+                        categoryImage: "assets/images/concierge-services.png")
                   ]),
                   32.height,
                   NewJobRequestComponent(),

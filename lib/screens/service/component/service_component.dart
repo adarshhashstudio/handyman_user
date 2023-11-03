@@ -217,37 +217,37 @@ class ServiceComponentState extends State<ServiceComponent> {
                           style: boldTextStyle())
                       .paddingSymmetric(horizontal: 16),
                 ),
-                8.height,
-                Row(
-                  children: [
-                    ImageBorder(
-                        src: widget.serviceData!.providerImage.validate(),
-                        height: 30),
-                    8.width,
-                    if (widget.serviceData!.providerName.validate().isNotEmpty)
-                      Text(
-                        widget.serviceData!.providerName.validate(),
-                        style: secondaryTextStyle(
-                            size: 12,
-                            color: appStore.isDarkMode
-                                ? Colors.white
-                                : appTextSecondaryColor),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ).expand()
-                  ],
-                ).onTap(() async {
-                  if (widget.serviceData!.providerId !=
-                      appStore.userId.validate()) {
-                    await ProviderInfoScreen(
-                            providerId:
-                                widget.serviceData!.providerId.validate())
-                        .launch(context);
-                    setStatusBarColor(Colors.transparent);
-                  } else {
-                    //
-                  }
-                }).paddingSymmetric(horizontal: 16),
+                // 8.height,
+                // Row(
+                //   children: [
+                //     ImageBorder(
+                //         src: widget.serviceData!.providerImage.validate(),
+                //         height: 30),
+                //     8.width,
+                //     if (widget.serviceData!.providerName.validate().isNotEmpty)
+                //       Text(
+                //         widget.serviceData!.providerName.validate(),
+                //         style: secondaryTextStyle(
+                //             size: 12,
+                //             color: appStore.isDarkMode
+                //                 ? Colors.white
+                //                 : appTextSecondaryColor),
+                //         maxLines: 2,
+                //         overflow: TextOverflow.ellipsis,
+                //       ).expand()
+                //   ],
+                // ).onTap(() async {
+                //   if (widget.serviceData!.providerId !=
+                //       appStore.userId.validate()) {
+                //     await ProviderInfoScreen(
+                //             providerId:
+                //                 widget.serviceData!.providerId.validate())
+                //         .launch(context);
+                //     setStatusBarColor(Colors.transparent);
+                //   } else {
+                //     //
+                //   }
+                // }).paddingSymmetric(horizontal: 16),
                 16.height,
               ],
             ),

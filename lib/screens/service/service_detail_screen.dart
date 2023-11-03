@@ -34,7 +34,8 @@ class ServiceDetailScreen extends StatefulWidget {
   _ServiceDetailScreenState createState() => _ServiceDetailScreenState();
 }
 
-class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerProviderStateMixin {
+class _ServiceDetailScreenState extends State<ServiceDetailScreen>
+    with TickerProviderStateMixin {
   PageController pageController = PageController();
 
   Future<ServiceDetailResponse>? future;
@@ -51,7 +52,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
   }
 
   void init() async {
-    future = getServiceDetails(serviceId: widget.serviceId.validate(), customerId: appStore.userId);
+    future = getServiceDetails(
+        serviceId: widget.serviceId.validate(), customerId: appStore.userId);
   }
 
   //region Widgets
@@ -63,7 +65,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(language.lblAvailableAt, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+          Text(language.lblAvailableAt,
+              style: boldTextStyle(size: LABEL_TEXT_SIZE)),
           16.height,
           Wrap(
             spacing: 16,
@@ -71,25 +74,33 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
             children: List.generate(
               data.serviceAddressMapping!.length,
               (index) {
-                ServiceAddressMapping value = data.serviceAddressMapping![index];
+                ServiceAddressMapping value =
+                    data.serviceAddressMapping![index];
                 if (value.providerAddressMapping == null) return Offstage();
 
                 bool isSelected = selectedAddressId == index;
                 if (selectedBookingAddressId == -1) {
-                  selectedBookingAddressId = data.serviceAddressMapping!.first.providerAddressId.validate();
+                  selectedBookingAddressId = data
+                      .serviceAddressMapping!.first.providerAddressId
+                      .validate();
                 }
                 return GestureDetector(
                   onTap: () {
                     selectedAddressId = index;
-                    selectedBookingAddressId = value.providerAddressId.validate();
+                    selectedBookingAddressId =
+                        value.providerAddressId.validate();
                     setState(() {});
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    decoration: boxDecorationDefault(color: isSelected ? primaryColor : context.cardColor),
+                    decoration: boxDecorationDefault(
+                        color: isSelected ? primaryColor : context.cardColor),
                     child: Text(
                       '${value.providerAddressMapping!.address.validate()}',
-                      style: boldTextStyle(color: isSelected ? Colors.white : textPrimaryColorGlobal),
+                      style: boldTextStyle(
+                          color: isSelected
+                              ? Colors.white
+                              : textPrimaryColorGlobal),
                     ),
                   ),
                 );
@@ -105,7 +116,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(language.lblAboutProvider, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        Text(language.lblAboutProvider,
+            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
         BookingDetailProviderWidget(providerData: data).onTap(() async {
           await ProviderInfoScreen(providerId: data.id).launch(context);
@@ -130,7 +142,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
             physics: NeverScrollableScrollPhysics(),
             itemCount: data.length,
             padding: EdgeInsets.all(0),
-            itemBuilder: (_, index) => ServiceFaqWidget(serviceFaq: data[index]),
+            itemBuilder: (_, index) =>
+                ServiceFaqWidget(serviceFaq: data[index]),
           ),
           8.height,
         ],
@@ -138,8 +151,11 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
     );
   }
 
-  Widget slotsAvailable({required List<SlotData> data, required bool isSlotAvailable}) {
-    if (!isSlotAvailable || data.where((element) => element.slot.validate().isNotEmpty).isEmpty) return Offstage();
+  Widget slotsAvailable(
+      {required List<SlotData> data, required bool isSlotAvailable}) {
+    if (!isSlotAvailable ||
+        data.where((element) => element.slot.validate().isNotEmpty).isEmpty)
+      return Offstage();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,12 +165,19 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
         Wrap(
           spacing: 16,
           runSpacing: 8,
-          children: List.generate(data.where((element) => element.slot.validate().isNotEmpty).length, (index) {
-            SlotData value = data.where((element) => element.slot.validate().isNotEmpty).toList()[index];
+          children: List.generate(
+              data
+                  .where((element) => element.slot.validate().isNotEmpty)
+                  .length, (index) {
+            SlotData value = data
+                .where((element) => element.slot.validate().isNotEmpty)
+                .toList()[index];
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: boxDecorationDefault(color: context.cardColor),
-              child: Text('${value.day.capitalizeFirstLetter()}', style: secondaryTextStyle(size: LABEL_TEXT_SIZE, color: primaryColor)),
+              child: Text('${value.day.capitalizeFirstLetter()}',
+                  style: secondaryTextStyle(
+                      size: LABEL_TEXT_SIZE, color: primaryColor)),
             );
           }),
         ),
@@ -162,13 +185,16 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
     ).paddingAll(16);
   }
 
-  Widget reviewWidget({required List<RatingData> data, required ServiceDetailResponse serviceDetailResponse}) {
+  Widget reviewWidget(
+      {required List<RatingData> data,
+      required ServiceDetailResponse serviceDetailResponse}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ViewAllLabel(
           //label: language.review,
-          label: '${language.review} (${serviceDetailResponse.serviceDetail!.totalReview})',
+          label:
+              '${language.review} (${serviceDetailResponse.serviceDetail!.totalReview})',
           list: data,
           onTap: () {
             RatingViewAllScreen(serviceId: widget.serviceId).launch(context);
@@ -186,7 +212,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
     ).paddingSymmetric(horizontal: 16);
   }
 
-  Widget relatedServiceWidget({required List<ServiceData> serviceList, required int serviceId}) {
+  Widget relatedServiceWidget(
+      {required List<ServiceData> serviceList, required int serviceId}) {
     if (serviceList.isEmpty) return Offstage();
 
     serviceList.removeWhere((element) => element.id == serviceId);
@@ -195,14 +222,20 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         8.height,
-        if (serviceList.isNotEmpty) Text(language.lblRelatedServices, style: boldTextStyle(size: LABEL_TEXT_SIZE)).paddingSymmetric(horizontal: 16),
+        if (serviceList.isNotEmpty)
+          Text(language.lblRelatedServices,
+                  style: boldTextStyle(size: LABEL_TEXT_SIZE))
+              .paddingSymmetric(horizontal: 16),
         if (serviceList.isNotEmpty)
           HorizontalList(
             itemCount: serviceList.length,
             padding: EdgeInsets.all(16),
             spacing: 8,
             runSpacing: 16,
-            itemBuilder: (_, index) => ServiceComponent(serviceData: serviceList[index], width: context.width() / 2 - 26).paddingOnly(right: 8),
+            itemBuilder: (_, index) => ServiceComponent(
+                    serviceData: serviceList[index],
+                    width: context.width() / 2 - 26)
+                .paddingOnly(right: 8),
           ),
         16.height,
       ],
@@ -213,8 +246,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
 
   void bookNow(ServiceDetailResponse serviceDetailResponse) {
     doIfLoggedIn(context, () {
-      serviceDetailResponse.serviceDetail!.bookingAddressId = selectedBookingAddressId;
-      BookServiceScreen(data: serviceDetailResponse, selectedPackage: selectedPackage).launch(context).then((value) {
+      serviceDetailResponse.serviceDetail!.bookingAddressId =
+          selectedBookingAddressId;
+      BookServiceScreen(
+              data: serviceDetailResponse, selectedPackage: selectedPackage)
+          .launch(context)
+          .then((value) {
         setStatusBarColor(transparentColor);
       });
     });
@@ -251,12 +288,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
                 return await 2.seconds.delay;
               },
               children: [
-                ServiceDetailHeaderComponent(serviceDetail: snap.data!.serviceDetail!),
+                ServiceDetailHeaderComponent(
+                    serviceDetail: snap.data!.serviceDetail!),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     8.height,
-                    Text(language.hintDescription, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                    Text(language.hintDescription,
+                        style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                     8.height,
                     snap.data!.serviceDetail!.description.validate().isNotEmpty
                         ? ReadMoreText(
@@ -265,17 +304,23 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
                             colorClickableText: context.primaryColor,
                             textAlign: TextAlign.justify,
                           )
-                        : Text(language.lblNotDescription, style: secondaryTextStyle()),
+                        : Text(language.lblNotDescription,
+                            style: secondaryTextStyle()),
                   ],
                 ).paddingAll(16),
-                slotsAvailable(data: snap.data!.serviceDetail!.bookingSlots.validate(), isSlotAvailable: snap.data!.serviceDetail!.isSlotAvailable),
+                slotsAvailable(
+                    data: snap.data!.serviceDetail!.bookingSlots.validate(),
+                    isSlotAvailable: snap.data!.serviceDetail!.isSlotAvailable),
                 availableWidget(data: snap.data!.serviceDetail!),
-                providerWidget(data: snap.data!.provider!),
+                // providerWidget(data: snap.data!.provider!),
 
                 /// Only active status package display
-                if (snap.data!.serviceDetail!.servicePackage.validate().isNotEmpty)
+                if (snap.data!.serviceDetail!.servicePackage
+                    .validate()
+                    .isNotEmpty)
                   PackageComponent(
-                    servicePackage: snap.data!.serviceDetail!.servicePackage.validate(),
+                    servicePackage:
+                        snap.data!.serviceDetail!.servicePackage.validate(),
                     callBack: (v) {
                       if (v != null) {
                         selectedPackage = v;
@@ -286,9 +331,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
                     },
                   ),
                 serviceFaqWidget(data: snap.data!.serviceFaq.validate()),
-                reviewWidget(data: snap.data!.ratingData!, serviceDetailResponse: snap.data!),
+                reviewWidget(
+                    data: snap.data!.ratingData!,
+                    serviceDetailResponse: snap.data!),
                 24.height,
-                if (snap.data!.relatedService.validate().isNotEmpty) relatedServiceWidget(serviceList: snap.data!.relatedService.validate(), serviceId: snap.data!.serviceDetail!.id.validate()),
+                if (snap.data!.relatedService.validate().isNotEmpty)
+                  relatedServiceWidget(
+                      serviceList: snap.data!.relatedService.validate(),
+                      serviceId: snap.data!.serviceDetail!.id.validate()),
               ],
             ),
             Positioned(
@@ -300,7 +350,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
                   bookNow(snap.data!);
                 },
                 color: context.primaryColor,
-                child: Text(language.lblBookNow, style: boldTextStyle(color: white)),
+                child: Text(language.lblBookNow,
+                    style: boldTextStyle(color: white)),
                 width: context.width(),
                 textColor: Colors.white,
               ),
@@ -312,14 +363,19 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> with TickerPr
     }
 
     return FutureBuilder<ServiceDetailResponse>(
-      initialData: listOfCachedData.firstWhere((element) => element?.$1 == widget.serviceId.validate(), orElse: () => null)?.$2,
+      initialData: listOfCachedData
+          .firstWhere((element) => element?.$1 == widget.serviceId.validate(),
+              orElse: () => null)
+          ?.$2,
       future: future,
       builder: (context, snap) {
         return Scaffold(
           body: Stack(
             children: [
               buildBodyWidget(snap),
-              Observer(builder: (context) => LoaderWidget().visible(appStore.isLoading)),
+              Observer(
+                  builder: (context) =>
+                      LoaderWidget().visible(appStore.isLoading)),
             ],
           ),
         );

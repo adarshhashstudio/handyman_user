@@ -25,14 +25,18 @@ class BookingItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _buildEditBookingWidget() {
       // if (bookingData.isSlotBooking) return Offstage();
-      if (bookingData.status == BookingStatusKeys.pending && DateTime.parse(bookingData.date.validate()).isAfter(DateTime.now())) {
+      if (bookingData.status == BookingStatusKeys.pending &&
+          DateTime.parse(bookingData.date.validate()).isAfter(DateTime.now())) {
         return IconButton(
           icon: ic_edit_square.iconImage(size: 18),
           visualDensity: VisualDensity.compact,
           onPressed: () async {
             if (bookingData.isSlotBooking) {
               BookingServiceStep1(
-                data: await getServiceDetails(serviceId: bookingData.serviceId.validate(), customerId: appStore.userId, fromBooking: true),
+                data: await getServiceDetails(
+                    serviceId: bookingData.serviceId.validate(),
+                    customerId: appStore.userId,
+                    fromBooking: true),
                 bookingData: bookingData,
                 showAppbar: true,
               ).launch(context);
@@ -58,9 +62,22 @@ class BookingItemComponent extends StatelessWidget {
 
     String buildTimeWidget({required BookingData bookingDetail}) {
       if (bookingDetail.bookingSlot == null) {
-        return formatDate(bookingDetail.date.validate(), format: HOUR_12_FORMAT);
+        return formatDate(bookingDetail.date.validate(),
+            format: HOUR_12_FORMAT);
       }
-      return TimeOfDay(hour: bookingDetail.bookingSlot.validate().splitBefore(':').split(":").first.toInt(), minute: bookingDetail.bookingSlot.validate().splitBefore(':').split(":").last.toInt())
+      return TimeOfDay(
+              hour: bookingDetail.bookingSlot
+                  .validate()
+                  .splitBefore(':')
+                  .split(":")
+                  .first
+                  .toInt(),
+              minute: bookingDetail.bookingSlot
+                  .validate()
+                  .splitBefore(':')
+                  .split(":")
+                  .last
+                  .toInt())
           .format(context);
     }
 
@@ -68,7 +85,9 @@ class BookingItemComponent extends StatelessWidget {
       padding: EdgeInsets.all(8),
       margin: EdgeInsets.only(bottom: 16),
       width: context.width(),
-      decoration: BoxDecoration(border: Border.all(color: context.dividerColor), borderRadius: radius()),
+      decoration: BoxDecoration(
+          border: Border.all(color: context.dividerColor),
+          borderRadius: radius()),
       child: Column(
         children: [
           Row(
@@ -76,7 +95,14 @@ class BookingItemComponent extends StatelessWidget {
             children: [
               if (bookingData.isPackageBooking)
                 CachedImageWidget(
-                  url: bookingData.bookingPackage!.imageAttachments.validate().isNotEmpty ? bookingData.bookingPackage!.imageAttachments.validate().first.validate() : "",
+                  url: bookingData.bookingPackage!.imageAttachments
+                          .validate()
+                          .isNotEmpty
+                      ? bookingData.bookingPackage!.imageAttachments
+                          .validate()
+                          .first
+                          .validate()
+                      : "",
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
@@ -84,7 +110,9 @@ class BookingItemComponent extends StatelessWidget {
                 )
               else
                 CachedImageWidget(
-                  url: bookingData.serviceAttachments.validate().isNotEmpty ? bookingData.serviceAttachments!.first.validate() : '',
+                  url: bookingData.serviceAttachments.validate().isNotEmpty
+                      ? bookingData.serviceAttachments!.first.validate()
+                      : '',
                   fit: BoxFit.cover,
                   width: 80,
                   height: 80,
@@ -100,21 +128,30 @@ class BookingItemComponent extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: bookingData.status.validate().getPaymentStatusBackgroundColor.withOpacity(0.1),
+                              color: bookingData.status
+                                  .validate()
+                                  .getPaymentStatusBackgroundColor
+                                  .withOpacity(0.1),
                               borderRadius: radius(8),
                             ),
                             child: Marquee(
                               child: Text(
                                 bookingData.status.validate().toBookingStatus(),
-                                style: boldTextStyle(color: bookingData.status.validate().getPaymentStatusBackgroundColor, size: 12),
+                                style: boldTextStyle(
+                                    color: bookingData.status
+                                        .validate()
+                                        .getPaymentStatusBackgroundColor,
+                                    size: 12),
                               ),
                             ),
                           ).flexible(),
                           if (bookingData.isPostJob)
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
                               margin: EdgeInsets.only(left: 4),
                               decoration: BoxDecoration(
                                 color: context.primaryColor.withOpacity(0.1),
@@ -122,12 +159,14 @@ class BookingItemComponent extends StatelessWidget {
                               ),
                               child: Text(
                                 language.postJob,
-                                style: boldTextStyle(color: context.primaryColor, size: 12),
+                                style: boldTextStyle(
+                                    color: context.primaryColor, size: 12),
                               ),
                             ),
                           if (bookingData.isPackageBooking)
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
                               margin: EdgeInsets.only(left: 4),
                               decoration: BoxDecoration(
                                 color: context.primaryColor.withOpacity(0.1),
@@ -135,7 +174,8 @@ class BookingItemComponent extends StatelessWidget {
                               ),
                               child: Text(
                                 language.package,
-                                style: boldTextStyle(color: context.primaryColor, size: 12),
+                                style: boldTextStyle(
+                                    color: context.primaryColor, size: 12),
                               ),
                             ),
                         ],
@@ -143,7 +183,8 @@ class BookingItemComponent extends StatelessWidget {
                       Row(
                         children: [
                           _buildEditBookingWidget(),
-                          Text('#${bookingData.id.validate()}', style: boldTextStyle(color: primaryColor)),
+                          Text('#${bookingData.id.validate()}',
+                              style: boldTextStyle(color: primaryColor)),
                         ],
                       ),
                     ],
@@ -151,45 +192,47 @@ class BookingItemComponent extends StatelessWidget {
                   8.height,
                   Marquee(
                     child: Text(
-                      bookingData.isPackageBooking ? '${bookingData.bookingPackage!.name.validate()}' : '${bookingData.serviceName.validate()}',
+                      bookingData.isPackageBooking
+                          ? '${bookingData.bookingPackage!.name.validate()}'
+                          : '${bookingData.serviceName.validate()}',
                       style: boldTextStyle(size: 14),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                   ),
                   8.height,
-                  if (bookingData.bookingPackage != null)
-                    PriceWidget(
-                      price: bookingData.totalAmount.validate(),
-                      color: primaryColor,
-                    )
-                  else
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PriceWidget(
-                          isFreeService: bookingData.type == SERVICE_TYPE_FREE,
-                          price: bookingData.totalAmount.validate(),
-                          color: primaryColor,
-                        ),
-                        if (bookingData.isHourlyService)
-                          Row(
-                            children: [
-                              4.width,
-                              Text('${bookingData.amount.validate().toPriceFormat()}/${language.lblHr}', style: secondaryTextStyle()),
-                            ],
-                          ),
-                        if (bookingData.discount.validate() != 0)
-                          Row(
-                            children: [
-                              4.width,
-                              Text('(${bookingData.discount!}%', style: boldTextStyle(size: 12, color: Colors.green)),
-                              Text(' ${language.lblOff})', style: boldTextStyle(size: 12, color: Colors.green)),
-                            ],
-                          ),
-                      ],
-                    ),
+                  // if (bookingData.bookingPackage != null)
+                  //   PriceWidget(
+                  //     price: bookingData.totalAmount.validate(),
+                  //     color: primaryColor,
+                  //   )
+                  // else
+                  //   Row(
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       PriceWidget(
+                  //         isFreeService: bookingData.type == SERVICE_TYPE_FREE,
+                  //         price: bookingData.totalAmount.validate(),
+                  //         color: primaryColor,
+                  //       ),
+                  //       if (bookingData.isHourlyService)
+                  //         Row(
+                  //           children: [
+                  //             4.width,
+                  //             Text('${bookingData.amount.validate().toPriceFormat()}/${language.lblHr}', style: secondaryTextStyle()),
+                  //           ],
+                  //         ),
+                  //       if (bookingData.discount.validate() != 0)
+                  //         Row(
+                  //           children: [
+                  //             4.width,
+                  //             Text('(${bookingData.discount!}%', style: boldTextStyle(size: 12, color: Colors.green)),
+                  //             Text(' ${language.lblOff})', style: boldTextStyle(size: 12, color: Colors.green)),
+                  //           ],
+                  //         ),
+                  //     ],
+                  //   ),
                 ],
               ).expand(),
             ],
@@ -206,10 +249,12 @@ class BookingItemComponent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('${language.lblDate} & ${language.lblTime}', style: secondaryTextStyle()),
+                    Text('${language.lblDate} & ${language.lblTime}',
+                        style: secondaryTextStyle()),
                     8.width,
                     Text(
-                      "${formatDate(bookingData.date.validate(), format: DATE_FORMAT_2)} ${language.at} " + buildTimeWidget(bookingDetail: bookingData),
+                      "${formatDate(bookingData.date.validate(), format: DATE_FORMAT_2)} ${language.at} " +
+                          buildTimeWidget(bookingDetail: bookingData),
                       style: boldTextStyle(size: 12),
                       maxLines: 2,
                       textAlign: TextAlign.right,
@@ -224,14 +269,20 @@ class BookingItemComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(language.textProvider, style: secondaryTextStyle()),
+                          Text(language.textProvider,
+                              style: secondaryTextStyle()),
                           8.width,
-                          Text(bookingData.providerName.validate(), style: boldTextStyle(size: 12), textAlign: TextAlign.right).flexible(),
+                          Text(bookingData.providerName.validate(),
+                                  style: boldTextStyle(size: 12),
+                                  textAlign: TextAlign.right)
+                              .flexible(),
                         ],
                       ).paddingAll(8),
                     ],
                   ),
-                if (bookingData.handyman.validate().isNotEmpty && bookingData.providerId != bookingData.handyman!.first.handymanId!)
+                if (bookingData.handyman.validate().isNotEmpty &&
+                    bookingData.providerId !=
+                        bookingData.handyman!.first.handymanId!)
                   Column(
                     children: [
                       Divider(height: 0, color: context.dividerColor),
@@ -239,14 +290,27 @@ class BookingItemComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(language.textHandyman, style: secondaryTextStyle()),
-                          Text(bookingData.handyman!.validate().first.handyman!.displayName.validate(), style: boldTextStyle(size: 12)).flexible(),
+                          Text(language.textHandyman,
+                              style: secondaryTextStyle()),
+                          Text(
+                                  bookingData.handyman!
+                                      .validate()
+                                      .first
+                                      .handyman!
+                                      .displayName
+                                      .validate(),
+                                  style: boldTextStyle(size: 12))
+                              .flexible(),
                         ],
                       ).paddingAll(8),
                     ],
                   ),
                 if (bookingData.paymentStatus != null &&
-                    (bookingData.status == BookingStatusKeys.complete || bookingData.paymentStatus == SERVICE_PAYMENT_STATUS_ADVANCE_PAID || bookingData.paymentStatus == SERVICE_PAYMENT_STATUS_PAID))
+                    (bookingData.status == BookingStatusKeys.complete ||
+                        bookingData.paymentStatus ==
+                            SERVICE_PAYMENT_STATUS_ADVANCE_PAID ||
+                        bookingData.paymentStatus ==
+                            SERVICE_PAYMENT_STATUS_PAID))
                   Column(
                     children: [
                       Divider(height: 0, color: context.dividerColor),
@@ -254,13 +318,21 @@ class BookingItemComponent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(language.paymentStatus, style: secondaryTextStyle()).expand(),
+                          Text(language.paymentStatus,
+                                  style: secondaryTextStyle())
+                              .expand(),
                           Text(
-                            buildPaymentStatusWithMethod(bookingData.paymentStatus.validate(), bookingData.paymentMethod.validate()),
+                            buildPaymentStatusWithMethod(
+                                bookingData.paymentStatus.validate(),
+                                bookingData.paymentMethod.validate()),
                             style: boldTextStyle(
                                 size: 12,
-                                color: bookingData.paymentStatus == SERVICE_PAYMENT_STATUS_ADVANCE_PAID ||
-                                        (bookingData.paymentStatus == SERVICE_PAYMENT_STATUS_PAID || bookingData.paymentStatus == PENDING_BY_ADMIN)
+                                color: bookingData.paymentStatus ==
+                                            SERVICE_PAYMENT_STATUS_ADVANCE_PAID ||
+                                        (bookingData.paymentStatus ==
+                                                SERVICE_PAYMENT_STATUS_PAID ||
+                                            bookingData.paymentStatus ==
+                                                PENDING_BY_ADMIN)
                                     ? Colors.green
                                     : Colors.red),
                           ),

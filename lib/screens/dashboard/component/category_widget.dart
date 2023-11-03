@@ -3,6 +3,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/category_model.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -10,8 +11,13 @@ class CategoryWidget extends StatelessWidget {
   final CategoryData categoryData;
   final double? width;
   final bool? isFromCategory;
+  final bool? isOdd;
 
-  CategoryWidget({required this.categoryData, this.width, this.isFromCategory});
+  CategoryWidget(
+      {required this.categoryData,
+      this.width,
+      this.isFromCategory,
+      this.isOdd});
 
   @override
   Widget build(BuildContext context) {
@@ -61,46 +67,167 @@ class CategoryWidget extends StatelessWidget {
     //   ),
     // );
 
-    return Stack(
-      children: [
-        Container(
-          height: 150.0,
-          width: context.width() * 0.89,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            image: DecorationImage(
-              image: AssetImage(
-                  '${categoryData.categoryImage}'), // Replace with your image path
-              fit: BoxFit.cover,
-            ),
-          ),
+    // return Stack(
+    //   children: [
+    //     Container(
+    //       height: 150.0,
+    //       width: context.width() * 0.89,
+    //       decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.all(Radius.circular(15)),
+    //         image: DecorationImage(
+    //           image: AssetImage(
+    //               '${categoryData.categoryImage}'), // Replace with your image path
+    //           fit: BoxFit.cover,
+    //         ),
+    //       ),
+    //     ),
+    //     Container(
+    //       height: 150.0,
+    //       width: context.width() * 0.89,
+    //       decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.all(Radius.circular(15)),
+    //         color:
+    //             Colors.black.withOpacity(0.5), // Adjust the opacity as needed
+    //       ),
+    //     ),
+    //     Positioned.fill(
+    //       child: Center(
+    //         child: Text(
+    //           '${categoryData.name}',
+    //           style: TextStyle(
+    //             color: Colors.white,
+    //             fontSize: 24.0,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
+
+    return Container(
+      margin: EdgeInsets.all(5),
+      width: context.width() * 0.87,
+      height: context.height() * 0.15,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
         ),
-        Container(
-          height: 150.0,
-          width: context.width() * 0.89,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            color:
-                Colors.black.withOpacity(0.5), // Adjust the opacity as needed
+        color: white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.07),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(0, 1),
           ),
-        ),
-        Positioned.fill(
-          child: Center(
-            child: Text(
-              '${categoryData.name}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
-              ),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
+      child: Row(
+        children: isOdd == true
+            ? [
+                Container(
+                  width: context.width() * 0.32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        bottomLeft: Radius.circular(12)),
+                    color: Color(0xffefefef),
+                  ),
+                  child: Center(
+                    child: categoryData.categoryImage
+                            .validate()
+                            .endsWith('.svg')
+                        ? SvgPicture.network(
+                            categoryData.categoryImage.validate(),
+                            height: 50,
+                            width: 50,
+                            placeholderBuilder: (context) => PlaceHolderWidget(
+                              height: 50,
+                              width: 50,
+                              color: transparentColor,
+                            ),
+                          )
+                        : CachedImageWidget(
+                            url: categoryData.categoryImage.validate(),
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                            placeHolderImage: '',
+                          ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        categoryData.name.toString(),
+                        textAlign: TextAlign.center,
+                        style:
+                            primaryTextStyle(size: 18, weight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ]
+            : [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        categoryData.name.toString(),
+                        textAlign: TextAlign.center,
+                        style:
+                            primaryTextStyle(size: 18, weight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: context.width() * 0.32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12),
+                        bottomRight: Radius.circular(12)),
+                    color: Color(0xffefefef),
+                  ),
+                  child: Center(
+                    child: categoryData.categoryImage
+                            .validate()
+                            .endsWith('.svg')
+                        ? SvgPicture.network(
+                            categoryData.categoryImage.validate(),
+                            height: 50,
+                            width: 50,
+                            placeholderBuilder: (context) => PlaceHolderWidget(
+                              height: 50,
+                              width: 50,
+                              color: transparentColor,
+                            ),
+                          )
+                        : CachedImageWidget(
+                            url: categoryData.categoryImage.validate(),
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                            placeHolderImage: '',
+                          ),
+                  ),
+                ),
+              ],
+      ),
     );
   }
 }
-
-
 
 // return Container(
 //       width: context.width() * 0.89,

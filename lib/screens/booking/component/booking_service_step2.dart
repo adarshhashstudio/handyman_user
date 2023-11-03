@@ -36,6 +36,8 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
   DateTime? selectedDate;
   DateTime? finalDate;
   TimeOfDay? pickedTime;
+  bool isButtonClicked = false;
+  bool isNowButtonClicked = false;
 
   @override
   void initState() {
@@ -44,10 +46,14 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
   }
 
   init() async {
+    addressCont.text = appStore.address;
     if (widget.data.serviceDetail!.dateTimeVal != null) {
       if (widget.isSlotAvailable.validate()) {
-        dateTimeCont.text = formatDate(widget.data.serviceDetail!.dateTimeVal.validate(), format: DATE_FORMAT_1);
-        selectedDate = DateTime.parse(widget.data.serviceDetail!.dateTimeVal.validate());
+        dateTimeCont.text = formatDate(
+            widget.data.serviceDetail!.dateTimeVal.validate(),
+            format: DATE_FORMAT_1);
+        selectedDate =
+            DateTime.parse(widget.data.serviceDetail!.dateTimeVal.validate());
         pickedTime = TimeOfDay.fromDateTime(selectedDate!);
       }
       addressCont.text = widget.data.serviceDetail!.address.validate();
@@ -79,23 +85,34 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
           confirmText: language.lblOk,
           builder: (_, child) {
             return Theme(
-              data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme(),
+              data: appStore.isDarkMode
+                  ? ThemeData.dark()
+                  : AppTheme.lightTheme(),
               child: child!,
             );
           },
         ).then((time) {
           if (time != null) {
-            finalDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+            finalDate = DateTime(
+                date.year, date.month, date.day, time.hour, time.minute);
 
             DateTime now = DateTime.now().subtract(1.minutes);
-            if (date.isToday && finalDate!.millisecondsSinceEpoch < now.millisecondsSinceEpoch) {
+            if (date.isToday &&
+                finalDate!.millisecondsSinceEpoch <
+                    now.millisecondsSinceEpoch) {
               return toast(language.selectedOtherBookingTime);
             }
 
             selectedDate = date;
             pickedTime = time;
             widget.data.serviceDetail!.dateTimeVal = finalDate.toString();
-            dateTimeCont.text = "${formatDate(selectedDate.toString(), format: DATE_FORMAT_3)} ${pickedTime!.format(context).toString()}";
+            dateTimeCont.text =
+                "${formatDate(selectedDate.toString(), format: DATE_FORMAT_3)} ${pickedTime!.format(context).toString()}";
+
+            setState(() {
+              isNowButtonClicked = false;
+              isButtonClicked = true;
+            });
           }
         }).catchError((e) {
           toast(e.toString());
@@ -104,12 +121,28 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
     });
   }
 
+  void setCurrentDateWithAdditional2Hours() {
+    final DateTime newDateTime = currentDateTime.add(Duration(hours: 2));
+
+    selectedDate = newDateTime;
+    pickedTime = TimeOfDay.fromDateTime(newDateTime);
+    finalDate = newDateTime;
+    widget.data.serviceDetail!.dateTimeVal = finalDate.toString();
+
+    dateTimeCont.text =
+        "${formatDate(selectedDate.toString(), format: DATE_FORMAT_3)} ${pickedTime!.format(context).toString()}";
+    setState(() {});
+  }
+
   void _handleSetLocationClick() {
     Permissions.cameraFilesAndLocationPermissionsGranted().then((value) async {
       await setValue(PERMISSION_STATUS, value);
 
       if (value) {
-        String? res = await MapScreen(latitude: getDoubleAsync(LATITUDE), latLong: getDoubleAsync(LONGITUDE)).launch(context);
+        String? res = await MapScreen(
+                latitude: getDoubleAsync(LATITUDE),
+                latLong: getDoubleAsync(LONGITUDE))
+            .launch(context);
 
         if (res != null) {
           addressCont.text = res;
@@ -159,7 +192,8 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 8.height,
-                Text(language.lblStepper1Title, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                Text(language.lblStepper1Title,
+                    style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                 20.height,
                 Form(
                   key: formKey,
@@ -174,39 +208,118 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(language.lblDateAndTime, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                              Text(language.lblDateAndTime,
+                                  style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                               8.height,
-                              AppTextField(
-                                textFieldType: TextFieldType.OTHER,
-                                controller: dateTimeCont,
-                                isValidationRequired: true,
-                                validator: (value) {
-                                  if (value!.isEmpty) return language.requiredText;
-                                  return null;
-                                },
-                                readOnly: true,
-                                onTap: () {
-                                  selectDateAndTime(context);
-                                },
-                                decoration: inputDecoration(context, prefixIcon: ic_calendar.iconImage(size: 10).paddingAll(14)).copyWith(
-                                  fillColor: context.scaffoldBackgroundColor,
-                                  filled: true,
-                                  hintText: language.chooseDateAndTime,
-                                  hintStyle: secondaryTextStyle(),
+                              Container(
+                                width: context.width() * 0.89,
+                                height: context.height() * 0.05,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setCurrentDateWithAdditional2Hours();
+                                          setState(() {
+                                            isNowButtonClicked = true;
+                                            isButtonClicked = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: isNowButtonClicked
+                                                  ? primaryColor
+                                                  : null,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(12)),
+                                              boxShadow: defaultBoxShadow(
+                                                  blurRadius: 0,
+                                                  spreadRadius: 0)),
+                                          padding: EdgeInsets.all(10),
+                                          child: Center(
+                                              child: Text(
+                                            'Now',
+                                            style: TextStyle(
+                                                color: isNowButtonClicked
+                                                    ? white
+                                                    : null),
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                    20.width,
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          selectDateAndTime(context);
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: isButtonClicked
+                                                  ? primaryColor
+                                                  : null,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(12)),
+                                              boxShadow: defaultBoxShadow(
+                                                  blurRadius: 0,
+                                                  spreadRadius: 0)),
+                                          padding: EdgeInsets.all(10),
+                                          child: Center(
+                                              child: Text(
+                                            'Schedule',
+                                            style: TextStyle(
+                                              color: isButtonClicked
+                                                  ? white
+                                                  : null,
+                                            ),
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
+                              if (selectedDate != null && !isNowButtonClicked)
+                                8.height,
+                              if (selectedDate != null && !isNowButtonClicked)
+                                AppTextField(
+                                  textFieldType: TextFieldType.OTHER,
+                                  controller: dateTimeCont,
+                                  isValidationRequired: true,
+                                  validator: (value) {
+                                    if (value!.isEmpty)
+                                      return language.requiredText;
+                                    return null;
+                                  },
+                                  readOnly: true,
+                                  onTap: () {
+                                    selectDateAndTime(context);
+                                  },
+                                  decoration: inputDecoration(context,
+                                          prefixIcon: ic_calendar
+                                              .iconImage(size: 10)
+                                              .paddingAll(14))
+                                      .copyWith(
+                                    fillColor: context.scaffoldBackgroundColor,
+                                    filled: true,
+                                    hintText: language.chooseDateAndTime,
+                                    hintStyle: secondaryTextStyle(),
+                                  ),
+                                ),
                               20.height,
                             ],
                           ),
-                        Text(language.lblYourAddress, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                        Text(language.lblYourAddress,
+                            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                         8.height,
                         AppTextField(
-                          textFieldType: TextFieldType.MULTILINE,
+                          textFieldType: TextFieldType.ADDRESS,
                           controller: addressCont,
-                          maxLines: 2,
+                          maxLines: 1,
                           onFieldSubmitted: (s) {
-                            widget.data.serviceDetail!.address = s;
+                            // widget.data.serviceDetail!.address = s;
                           },
+                          enabled: false,
                           decoration: inputDecoration(
                             context,
                             prefixIcon: Column(
@@ -214,34 +327,42 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                ic_location.iconImage(size: 22).paddingOnly(top: 8),
+                                ic_location
+                                    .iconImage(size: 22)
+                                    .paddingOnly(top: 8),
                               ],
                             ),
                           ).copyWith(
                             fillColor: context.scaffoldBackgroundColor,
                             filled: true,
-                            hintText: language.lblEnterYourAddress,
+                            // hintText: language.lblEnterYourAddress,
                             hintStyle: secondaryTextStyle(),
                           ),
                         ),
-                        8.height,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              child: Text(language.lblChooseFromMap, style: boldTextStyle(color: primaryColor, size: 13)),
-                              onPressed: () {
-                                _handleSetLocationClick();
-                              },
-                            ).flexible(),
-                            TextButton(
-                              onPressed: _handleCurrentLocationClick,
-                              child: Text(language.lblUseCurrentLocation, style: boldTextStyle(color: primaryColor, size: 13),textAlign: TextAlign.right),
-                            ).flexible(),
-                          ],
-                        ),
+                        // 8.height,
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     TextButton(
+                        //       child: Text(language.lblChooseFromMap,
+                        //           style: boldTextStyle(
+                        //               color: primaryColor, size: 13)),
+                        //       onPressed: () {
+                        //         _handleSetLocationClick();
+                        //       },
+                        //     ).flexible(),
+                        //     TextButton(
+                        //       onPressed: _handleCurrentLocationClick,
+                        //       child: Text(language.lblUseCurrentLocation,
+                        //           style: boldTextStyle(
+                        //               color: primaryColor, size: 13),
+                        //           textAlign: TextAlign.right),
+                        //     ).flexible(),
+                        //   ],
+                        // ),
                         16.height,
-                        Text("${language.hintDescription}:", style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                        Text("Comments:",
+                            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                         8.height,
                         AppTextField(
                           textFieldType: TextFieldType.MULTILINE,
@@ -255,7 +376,7 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                           decoration: inputDecoration(context).copyWith(
                             fillColor: context.scaffoldBackgroundColor,
                             filled: true,
-                            hintText: language.lblEnterDescription,
+                            hintText: 'Enter Comments',
                             hintStyle: secondaryTextStyle(),
                           ),
                         ),
@@ -275,9 +396,12 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
               children: [
                 if (!widget.isSlotAvailable.validate())
                   AppButton(
-                    shapeBorder: RoundedRectangleBorder(borderRadius: radius(), side: BorderSide(color: context.primaryColor)),
+                    shapeBorder: RoundedRectangleBorder(
+                        borderRadius: radius(),
+                        side: BorderSide(color: context.primaryColor)),
                     onTap: () {
-                      customStepperController.previousPage(duration: 200.milliseconds, curve: Curves.easeInOut);
+                      customStepperController.previousPage(
+                          duration: 200.milliseconds, curve: Curves.easeInOut);
                     },
                     text: language.lblPrevious,
                     textColor: textPrimaryColorGlobal,
@@ -288,9 +412,11 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                     hideKeyboard(context);
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
-                      widget.data.serviceDetail!.bookingDescription = descriptionCont.text;
+                      widget.data.serviceDetail!.bookingDescription =
+                          descriptionCont.text;
                       widget.data.serviceDetail!.address = addressCont.text;
-                      customStepperController.nextPage(duration: 200.milliseconds, curve: Curves.easeOut);
+                      customStepperController.nextPage(
+                          duration: 200.milliseconds, curve: Curves.easeOut);
                     }
                   },
                   text: language.btnNext,
@@ -301,7 +427,8 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
               ],
             ),
           ),
-          Observer(builder: (context) => LoaderWidget().visible(appStore.isLoading))
+          Observer(
+              builder: (context) => LoaderWidget().visible(appStore.isLoading))
         ],
       ),
     );

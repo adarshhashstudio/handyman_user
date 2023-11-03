@@ -1,5 +1,6 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
+import 'package:booking_system_flutter/screens/dashboard/component/category_widget.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen_one.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen_two.dart';
 import 'package:booking_system_flutter/store/filter_store.dart';
@@ -51,11 +52,11 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
     CategoryData(
         id: 1,
         name: "Home Interior",
-        categoryImage: "assets/images/home_interior.jpg"),
+        categoryImage: "assets/images/home-interior.png"),
     CategoryData(
         id: 2,
         name: "Home Exterior",
-        categoryImage: "assets/images/home_exterior.jpg")
+        categoryImage: "assets/images/home-exterior.png")
   ];
   String globalTextField = '';
 
@@ -176,41 +177,9 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
 
                     // setState(() {});
                   },
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 150.0,
-                        width: context.width() * 0.89,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          image: DecorationImage(
-                            image: AssetImage(
-                                '${data.categoryImage}'), // Replace with your image path
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 150.0,
-                        width: context.width() * 0.89,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          color: Colors.black
-                              .withOpacity(0.5), // Adjust the opacity as needed
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: Center(
-                          child: Text(
-                            '${data.name}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: CategoryWidget(
+                    categoryData: data,
+                    isOdd: (index % 2 == 0),
                   ),
                 );
               },

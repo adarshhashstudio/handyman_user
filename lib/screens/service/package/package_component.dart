@@ -69,12 +69,16 @@ class _PackageComponentState extends State<PackageComponent> {
               decoration: boxDecorationWithRoundedCorners(
                 borderRadius: radius(),
                 backgroundColor: context.cardColor,
-                border: appStore.isDarkMode ? Border.all(color: context.dividerColor) : null,
+                border: appStore.isDarkMode
+                    ? Border.all(color: context.dividerColor)
+                    : null,
               ),
               child: Row(
                 children: [
                   CachedImageWidget(
-                    url: data.imageAttachments.validate().isNotEmpty ? data.imageAttachments!.first.validate() : "",
+                    url: data.imageAttachments.validate().isNotEmpty
+                        ? data.imageAttachments!.first.validate()
+                        : "",
                     height: 60,
                     fit: BoxFit.cover,
                     radius: defaultRadius,
@@ -88,14 +92,15 @@ class _PackageComponentState extends State<PackageComponent> {
                         children: [
                           Marquee(
                             directionMarguee: DirectionMarguee.oneDirection,
-                            child: Text(data.name.validate(), style: boldTextStyle()),
+                            child: Text(data.name.validate(),
+                                style: boldTextStyle()),
                           ),
-                          2.height,
-                          PriceWidget(
-                            price: data.price.validate(),
-                            hourlyTextColor: Colors.white,
-                            size: 12,
-                          ),
+                          // 2.height,
+                          // PriceWidget(
+                          //   price: data.price.validate(),
+                          //   hourlyTextColor: Colors.white,
+                          //   size: 12,
+                          // ),
                         ],
                       ),
                       if (data.endDate.validate().isNotEmpty)
@@ -104,7 +109,8 @@ class _PackageComponentState extends State<PackageComponent> {
                             8.height,
                             Text(
                               '${language.endOn}: ${formatDate(data.endDate.validate(), format: DATE_FORMAT_2)}',
-                              style: boldTextStyle(color: Colors.green, size: 12),
+                              style:
+                                  boldTextStyle(color: Colors.green, size: 12),
                             ),
                           ],
                         ),
@@ -114,22 +120,34 @@ class _PackageComponentState extends State<PackageComponent> {
                   AppButton(
                     child: Text(
                       language.buy,
-                      style: boldTextStyle(color: selectedIndex != i ? white : textPrimaryColorGlobal),
+                      style: boldTextStyle(
+                          color: selectedIndex != i
+                              ? white
+                              : textPrimaryColorGlobal),
                     ),
-                    color: selectedIndex != i ? context.primaryColor : context.scaffoldBackgroundColor,
+                    color: selectedIndex != i
+                        ? context.primaryColor
+                        : context.scaffoldBackgroundColor,
                     onTap: () async {
                       bool? res = await showModalBottomSheet(
                         backgroundColor: Colors.transparent,
                         context: context,
                         isScrollControlled: true,
                         isDismissible: true,
-                        shape: RoundedRectangleBorder(borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: radiusOnly(
+                                topLeft: defaultRadius,
+                                topRight: defaultRadius)),
                         builder: (_) {
                           return DraggableScrollableSheet(
                             initialChildSize: 0.50,
                             minChildSize: 0.2,
                             maxChildSize: 1,
-                            builder: (context, scrollController) => PackageInfoComponent(packageData: data, scrollController: scrollController, isFromServiceDetail: true),
+                            builder: (context, scrollController) =>
+                                PackageInfoComponent(
+                                    packageData: data,
+                                    scrollController: scrollController,
+                                    isFromServiceDetail: true),
                           );
                         },
                       );

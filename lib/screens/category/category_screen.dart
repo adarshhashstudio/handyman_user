@@ -5,6 +5,7 @@ import 'package:booking_system_flutter/model/category_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/category/shimmer/category_shimmer.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/category_widget.dart';
+import 'package:booking_system_flutter/screens/service/view_all_service_screen_two.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +37,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   void init() async {
-    future = getCategoryListWithPagination(page, categoryList: categoryList, lastPageCallBack: (val) {
+    future = getCategoryListWithPagination(page, categoryList: categoryList,
+        lastPageCallBack: (val) {
       isLastPage = val;
     });
     if (page == 1) {
@@ -62,7 +64,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
         textColor: Colors.white,
         textSize: APP_BAR_TEXT_SIZE,
         color: primaryColor,
-        systemUiOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: appStore.isDarkMode ? Brightness.light : Brightness.light, statusBarColor: context.primaryColor),
+        systemUiOverlayStyle: SystemUiOverlayStyle(
+            statusBarIconBrightness:
+                appStore.isDarkMode ? Brightness.light : Brightness.light,
+            statusBarColor: context.primaryColor),
         showBack: Navigator.canPop(context),
         backWidget: BackWidget(),
       ),
@@ -71,7 +76,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SnapHelperWidget<List<CategoryData>>(
             initialData: cachedCategoryList,
             future: future,
-            loadingWidget: CategoryShimmer(),
+            loadingWidget: LoaderWidget(), // CategoryShimmer(),
             onSuccess: (snap) {
               if (snap.isEmpty) {
                 return NoDataWidget(
@@ -109,16 +114,28 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     spacing: 16,
                     itemCount: snap.length,
                     listAnimationType: ListAnimationType.FadeIn,
-                    fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
-                    scaleConfiguration: ScaleConfiguration(duration: 300.milliseconds, delay: 50.milliseconds),
+                    fadeInConfiguration:
+                        FadeInConfiguration(duration: 2.seconds),
+                    scaleConfiguration: ScaleConfiguration(
+                        duration: 300.milliseconds, delay: 50.milliseconds),
                     itemBuilder: (_, index) {
                       CategoryData data = snap[index];
 
                       return GestureDetector(
                         onTap: () {
-                          ViewAllServiceScreen(categoryId: data.id.validate(), categoryName: data.name, isFromCategory: true).launch(context);
+                          // ViewAllServiceScreen(
+                          //         categoryId: data.id.validate(),
+                          //         categoryName: data.name,
+                          //         isFromCategory: true)
+                          //     .launch(context);
+                          ViewAllServiceScreenTwo(
+                            categoryId: data.id.validate(),
+                            categoryName: data.name,
+                            isFromCategory: true,
+                          ).launch(context);
                         },
-                        child: CategoryWidget(categoryData: data, width: context.width() / 4 - 20),
+                        child: CategoryWidget(
+                            categoryData: data, isOdd: (index % 2 == 0)),
                       );
                     },
                   ),
@@ -140,7 +157,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
               );
             },
           ),
-          Observer(builder: (BuildContext context) => LoaderWidget().visible(appStore.isLoading.validate())),
+          Observer(
+              builder: (BuildContext context) =>
+                  LoaderWidget().visible(appStore.isLoading.validate())),
         ],
       ),
     );

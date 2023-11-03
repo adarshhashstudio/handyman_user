@@ -12,7 +12,10 @@ class PackageInfoComponent extends StatefulWidget {
   final bool? isFromServiceDetail;
   final ScrollController scrollController;
 
-  PackageInfoComponent({required this.packageData, required this.scrollController, this.isFromServiceDetail = false});
+  PackageInfoComponent(
+      {required this.packageData,
+      required this.scrollController,
+      this.isFromServiceDetail = false});
 
   @override
   _PackageInfoComponentState createState() => _PackageInfoComponentState();
@@ -37,7 +40,10 @@ class _PackageInfoComponentState extends State<PackageInfoComponent> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecorationWithRoundedCorners(borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius), backgroundColor: context.cardColor),
+      decoration: boxDecorationWithRoundedCorners(
+          borderRadius:
+              radiusOnly(topLeft: defaultRadius, topRight: defaultRadius),
+          backgroundColor: context.cardColor),
       child: AnimatedScrollView(
         controller: widget.scrollController,
         padding: EdgeInsets.all(16),
@@ -49,7 +55,8 @@ class _PackageInfoComponentState extends State<PackageInfoComponent> {
             mainAxisSize: MainAxisSize.min,
             children: [
               8.height,
-              Container(width: 40, height: 2, color: gray.withOpacity(0.3)).center(),
+              Container(width: 40, height: 2, color: gray.withOpacity(0.3))
+                  .center(),
               16.height,
               Text(
                 widget.packageData.name.validate(),
@@ -67,7 +74,8 @@ class _PackageInfoComponentState extends State<PackageInfoComponent> {
                           textAlign: TextAlign.justify,
                           colorClickableText: context.primaryColor,
                         )
-                      : Text(language.lblNotDescription, style: secondaryTextStyle()),
+                      : Text(language.lblNotDescription,
+                          style: secondaryTextStyle()),
                 ],
               ),
               16.width,
@@ -87,7 +95,8 @@ class _PackageInfoComponentState extends State<PackageInfoComponent> {
                     ),
                   ],
                 ),
-              Text(language.getTheseServiceWithThisPackage, style: secondaryTextStyle()),
+              Text(language.getTheseServiceWithThisPackage,
+                  style: secondaryTextStyle()),
               8.height,
               if (widget.packageData.serviceList != null)
                 ListView.builder(
@@ -99,18 +108,23 @@ class _PackageInfoComponentState extends State<PackageInfoComponent> {
 
                     return Container(
                       width: context.width(),
-                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                       margin: EdgeInsets.symmetric(vertical: 8),
                       decoration: boxDecorationWithRoundedCorners(
                         borderRadius: radius(),
                         backgroundColor: context.scaffoldBackgroundColor,
-                        border: appStore.isDarkMode ? Border.all(color: context.dividerColor) : null,
+                        border: appStore.isDarkMode
+                            ? Border.all(color: context.dividerColor)
+                            : null,
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CachedImageWidget(
-                            url: data.attachments!.isNotEmpty ? data.attachments!.first : "",
+                            url: data.attachments!.isNotEmpty
+                                ? data.attachments!.first
+                                : "",
                             height: 70,
                             width: 70,
                             fit: BoxFit.cover,
@@ -120,26 +134,40 @@ class _PackageInfoComponentState extends State<PackageInfoComponent> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Marquee(child: Text(data.name.validate(), style: boldTextStyle(size: LABEL_TEXT_SIZE))),
+                              Marquee(
+                                  child: Text(data.name.validate(),
+                                      style: boldTextStyle(
+                                          size: LABEL_TEXT_SIZE))),
                               4.height,
                               if (data.subCategoryName.validate().isNotEmpty)
                                 Marquee(
                                   child: Row(
                                     children: [
-                                      Text('${data.categoryName}', style: boldTextStyle(size: 12, color: textSecondaryColorGlobal)),
-                                      Text('  >  ', style: boldTextStyle(size: 14, color: textSecondaryColorGlobal)),
-                                      Text('${data.subCategoryName}', style: boldTextStyle(size: 12, color: context.primaryColor)),
+                                      Text('${data.categoryName}',
+                                          style: boldTextStyle(
+                                              size: 12,
+                                              color: textSecondaryColorGlobal)),
+                                      Text('  >  ',
+                                          style: boldTextStyle(
+                                              size: 14,
+                                              color: textSecondaryColorGlobal)),
+                                      Text('${data.subCategoryName}',
+                                          style: boldTextStyle(
+                                              size: 12,
+                                              color: context.primaryColor)),
                                     ],
                                   ),
                                 )
                               else
-                                Text('${data.categoryName}', style: boldTextStyle(size: 14, color: context.primaryColor)),
-                              4.height,
-                              PriceWidget(
-                                price: data.price.validate(),
-                                hourlyTextColor: Colors.white,
-                                size: 14,
-                              ),
+                                Text('${data.categoryName}',
+                                    style: boldTextStyle(
+                                        size: 14, color: context.primaryColor)),
+                              // 4.height,
+                              // PriceWidget(
+                              //   price: data.price.validate(),
+                              //   hourlyTextColor: Colors.white,
+                              //   size: 14,
+                              // ),
                             ],
                           ).expand()
                         ],

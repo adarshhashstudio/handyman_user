@@ -63,7 +63,10 @@ class CategoryComponentState extends State<CategoryComponent> {
                         isFromCategory: true)
                     .launch(context);
               },
-              child: CategoryWidget(categoryData: data),
+              child: CategoryWidget(
+                categoryData: data,
+                isOdd: (i % 2 == 0),
+              ),
             );
           },
         ),

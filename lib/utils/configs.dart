@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 const APP_NAME = 'K&C Service';
 const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
-var defaultPrimaryColor = Color(0xFF5F60B9);
+var defaultPrimaryColor = Color(0xFFB5AA9F); // Color(0xFF5F60B9);
 
 const DOMAIN_URL = 'http://18.166.209.221';
 const BASE_URL = '$DOMAIN_URL/api/';
