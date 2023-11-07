@@ -52,24 +52,24 @@ class CategoryComponentState extends State<CategoryComponent> {
         ).paddingSymmetric(horizontal: 16),
         GridView.builder(
           shrinkWrap: true,
-          itemCount: widget.categoryList?.length,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: widget.categoryList!.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
+            childAspectRatio: 1.0,
           ),
           itemBuilder: (context, index) {
             CategoryData data = widget.categoryList![index];
-            return Expanded(
-              child: SubCategoryComponentTwo(
-                categoryImage: data.categoryImage.toString(),
-                categoryName: '${data.name}',
-                onTap: () {
-                  ViewAllServiceScreen(
-                          categoryId: data.id.validate(),
-                          categoryName: data.name,
-                          isFromCategory: true)
-                      .launch(context);
-                },
-              ),
+            return SubCategoryComponentTwo(
+              categoryImage: data.categoryImage.toString(),
+              categoryName: '${data.name}',
+              onTap: () {
+                ViewAllServiceScreen(
+                        categoryId: data.id.validate(),
+                        categoryName: data.name,
+                        isFromCategory: true)
+                    .launch(context);
+              },
             );
           },
         )
