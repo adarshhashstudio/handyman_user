@@ -1252,15 +1252,15 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                       // ),
 
                       /// Extra charges
-                      extraChargesWidget(
-                          extraChargesList: snap
-                              .data!.bookingDetail!.extraCharges
-                              .validate()),
+                      // extraChargesWidget(
+                      //     extraChargesList: snap
+                      //         .data!.bookingDetail!.extraCharges
+                      //         .validate()),
 
                       /// Payment Detail Card
-                      if (snap.data!.service!.type.validate() !=
-                          SERVICE_TYPE_FREE)
-                        paymentDetailCard(snap.data!.bookingDetail!),
+                      // if (snap.data!.service!.type.validate() !=
+                      //     SERVICE_TYPE_FREE)
+                      //   paymentDetailCard(snap.data!.bookingDetail!),
 
                       /// Customer Review widget
                       customerReviewWidget(

@@ -13,6 +13,7 @@ import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../utils/common.dart';
@@ -64,7 +65,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
 
   Widget getSliderWidget() {
     return SizedBox(
-      height: 325,
+      height: context.height() * 0.30,
       width: context.width(),
       child: Stack(
         children: [
@@ -167,8 +168,25 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
       clipBehavior: Clip.none,
       children: [
         getSliderWidget(),
+        Positioned.fill(
+          child: Center(
+            child: Container(
+              width: context.width() * 1,
+              height: context.height() * 0.08,
+              color: Colors.white70,
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Center(
+            child: SvgPicture.asset(
+              "assets/icons/KandC-logo-dark.svg",
+              width: 100,
+            ),
+          ),
+        ),
         Positioned(
-          bottom: -24,
+          bottom: 0,
           right: 16,
           left: 16,
           child: Row(

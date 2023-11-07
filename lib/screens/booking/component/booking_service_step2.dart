@@ -309,59 +309,65 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                               20.height,
                             ],
                           ),
-                        Text(language.lblYourAddress,
-                            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                        8.height,
-                        AppTextField(
-                          textFieldType: TextFieldType.ADDRESS,
-                          // controller: addressCont,
-                          maxLines: 1,
-                          onFieldSubmitted: (s) {
-                            // widget.data.serviceDetail!.address = s;
-                          },
-                          initialValue: appStore.address,
-                          enabled: false,
-                          decoration: inputDecoration(
-                            context,
-                            prefixIcon: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ic_location
-                                    .iconImage(size: 22)
-                                    .paddingOnly(top: 8),
-                              ],
+                        Visibility(
+                          visible: false,
+                          child: Text(language.lblYourAddress,
+                              style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                        ),
+                        Visibility(
+                          visible: false,
+                          child: AppTextField(
+                            textFieldType: TextFieldType.ADDRESS,
+                            // controller: addressCont,
+                            maxLines: 1,
+                            onFieldSubmitted: (s) {
+                              // widget.data.serviceDetail!.address = s;
+                            },
+                            initialValue: appStore.address,
+                            enabled: false,
+                            decoration: inputDecoration(
+                              context,
+                              prefixIcon: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ic_location
+                                      .iconImage(size: 22)
+                                      .paddingOnly(top: 8),
+                                ],
+                              ),
+                            ).copyWith(
+                              fillColor: context.scaffoldBackgroundColor,
+                              filled: true,
+                              // hintText: language.lblEnterYourAddress,
+                              hintStyle: secondaryTextStyle(),
                             ),
-                          ).copyWith(
-                            fillColor: context.scaffoldBackgroundColor,
-                            filled: true,
-                            // hintText: language.lblEnterYourAddress,
-                            hintStyle: secondaryTextStyle(),
                           ),
                         ),
-                        // 8.height,
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     TextButton(
-                        //       child: Text(language.lblChooseFromMap,
-                        //           style: boldTextStyle(
-                        //               color: primaryColor, size: 13)),
-                        //       onPressed: () {
-                        //         _handleSetLocationClick();
-                        //       },
-                        //     ).flexible(),
-                        //     TextButton(
-                        //       onPressed: _handleCurrentLocationClick,
-                        //       child: Text(language.lblUseCurrentLocation,
-                        //           style: boldTextStyle(
-                        //               color: primaryColor, size: 13),
-                        //           textAlign: TextAlign.right),
-                        //     ).flexible(),
-                        //   ],
-                        // ),
-                        16.height,
+                        Visibility(
+                          visible: false,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                child: Text(language.lblChooseFromMap,
+                                    style: boldTextStyle(
+                                        color: primaryColor, size: 13)),
+                                onPressed: () {
+                                  _handleSetLocationClick();
+                                },
+                              ).flexible(),
+                              TextButton(
+                                onPressed: _handleCurrentLocationClick,
+                                child: Text(language.lblUseCurrentLocation,
+                                    style: boldTextStyle(
+                                        color: primaryColor, size: 13),
+                                    textAlign: TextAlign.right),
+                              ).flexible(),
+                            ],
+                          ),
+                        ),
                         Text("Comments:",
                             style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                         8.height,
