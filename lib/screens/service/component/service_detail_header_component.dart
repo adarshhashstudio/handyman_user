@@ -232,26 +232,26 @@ class _ServiceDetailHeaderComponentState
                           style: boldTextStyle(color: primaryColor),
                         ),
                       ),
-                      TextIcon(
-                        text: '${language.lblRating}',
-                        textStyle: secondaryTextStyle(size: 14),
-                        edgeInsets: EdgeInsets.symmetric(vertical: 4),
-                        expandedText: true,
-                        suffix: Row(
-                          children: [
-                            Image.asset(ic_star_fill,
-                                height: 18,
-                                color: getRatingBarColor(widget
-                                    .serviceDetail.totalRating
-                                    .validate()
-                                    .toInt())),
-                            4.width,
-                            Text(
-                                "${widget.serviceDetail.totalRating.validate().toStringAsFixed(1)}",
-                                style: boldTextStyle()),
-                          ],
-                        ),
-                      ),
+                      // TextIcon(
+                      //   text: '${language.lblRating}',
+                      //   textStyle: secondaryTextStyle(size: 14),
+                      //   edgeInsets: EdgeInsets.symmetric(vertical: 4),
+                      //   expandedText: true,
+                      //   suffix: Row(
+                      //     children: [
+                      //       Image.asset(ic_star_fill,
+                      //           height: 18,
+                      //           color: getRatingBarColor(widget
+                      //               .serviceDetail.totalRating
+                      //               .validate()
+                      //               .toInt())),
+                      //       4.width,
+                      //       Text(
+                      //           "${widget.serviceDetail.totalRating.validate().toStringAsFixed(1)}",
+                      //           style: boldTextStyle()),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

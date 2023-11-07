@@ -1263,10 +1263,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                       //   paymentDetailCard(snap.data!.bookingDetail!),
 
                       /// Customer Review widget
-                      customerReviewWidget(
-                          ratingList: snap.data!.ratingData.validate(),
-                          customerReview: snap.data!.customerReview,
-                          bookingDetail: snap.data!.bookingDetail!),
+                      // customerReviewWidget(
+                      //     ratingList: snap.data!.ratingData.validate(),
+                      //     customerReview: snap.data!.customerReview,
+                      //     bookingDetail: snap.data!.bookingDetail!),
                     ],
                   ),
                 ),

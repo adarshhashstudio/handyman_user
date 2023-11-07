@@ -163,18 +163,18 @@ class BookingDetailHandymanWidgetState
               ),
             ],
           ),
-          8.height,
-          if (widget.bookingDetail.status == BookingStatusKeys.complete)
-            TextButton(
-              onPressed: () {
-                _handleHandymanRatingClick();
-              },
-              child: Text(
-                  widget.handymanData.handymanReview != null
-                      ? language.lblEditYourReview
-                      : language.lblRateHandyman,
-                  style: boldTextStyle(color: primaryColor)),
-            ).center()
+          // 8.height,
+          // if (widget.bookingDetail.status == BookingStatusKeys.complete)
+          //   TextButton(
+          //     onPressed: () {
+          //       _handleHandymanRatingClick();
+          //     },
+          //     child: Text(
+          //         widget.handymanData.handymanReview != null
+          //             ? language.lblEditYourReview
+          //             : language.lblRateHandyman,
+          //         style: boldTextStyle(color: primaryColor)),
+          //   ).center()
         ],
       ),
     );
