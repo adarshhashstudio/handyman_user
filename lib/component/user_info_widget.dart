@@ -18,7 +18,11 @@ class UserInfoWidget extends StatefulWidget {
   final bool forProvider;
   final VoidCallback? onUpdate;
 
-  UserInfoWidget({required this.data, this.isOnTapEnabled, this.forProvider = true, this.onUpdate});
+  UserInfoWidget(
+      {required this.data,
+      this.isOnTapEnabled,
+      this.forProvider = true,
+      this.onUpdate});
 
   @override
   State<UserInfoWidget> createState() => _UserInfoWidgetState();
@@ -60,7 +64,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
       widget.data.isFavourite = 0;
       setState(() {});
 
-      await removeProviderToWishList(providerId: widget.data.id.validate()).then((value) {
+      await removeProviderToWishList(providerId: widget.data.id.validate())
+          .then((value) {
         if (!value) {
           widget.data.isFavourite = 1;
           setState(() {});
@@ -71,7 +76,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
       widget.data.isFavourite = 1;
       setState(() {});
 
-      await addProviderToWishList(providerId: widget.data.id.validate()).then((value) {
+      await addProviderToWishList(providerId: widget.data.id.validate())
+          .then((value) {
         if (!value) {
           widget.data.isFavourite = 0;
           setState(() {});
@@ -131,23 +137,43 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(widget.data.displayName.validate(), style: boldTextStyle(size: 18)).expand(),
-                                        Image.asset(ic_verified, height: 18, width: 18, color: verifyAcColor).visible(widget.data.isVerifyProvider == 1),
+                                        Text(widget.data.displayName.validate(),
+                                                style: boldTextStyle(size: 18))
+                                            .expand(),
+                                        Image.asset(ic_verified,
+                                                height: 18,
+                                                width: 18,
+                                                color: verifyAcColor)
+                                            .visible(
+                                                widget.data.isVerifyProvider ==
+                                                    1),
                                         8.width,
 
                                         //Favourite provider
                                         if (widget.data.isProvider)
                                           Container(
                                             padding: EdgeInsets.all(8),
-                                            decoration: boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: context.cardColor),
-                                            child: widget.data.isFavourite == 1 ? ic_fill_heart.iconImage(color: favouriteColor, size: 20) : ic_heart.iconImage(color: unFavouriteColor, size: 20),
+                                            decoration: boxDecorationWithShadow(
+                                                boxShape: BoxShape.circle,
+                                                backgroundColor:
+                                                    context.cardColor),
+                                            child: widget.data.isFavourite == 1
+                                                ? ic_fill_heart.iconImage(
+                                                    color: favouriteColor,
+                                                    size: 20)
+                                                : ic_heart.iconImage(
+                                                    color: unFavouriteColor,
+                                                    size: 20),
                                           ).onTap(() async {
                                             if (appStore.isLoggedIn) {
                                               onTapFavouriteProvider();
                                             } else {
-                                              bool? res = await push(SignInScreen(returnExpected: true));
+                                              bool? res = await push(
+                                                  SignInScreen(
+                                                      returnExpected: true));
 
                                               if (res ?? false) {
                                                 onTapFavouriteProvider();
@@ -156,11 +182,20 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                           }),
                                       ],
                                     ),
-                                    if (widget.data.designation.validate().isNotEmpty)
+                                    if (widget.data.designation
+                                        .validate()
+                                        .isNotEmpty)
                                       Column(
                                         children: [
                                           4.height,
-                                          Marquee(child: Text(widget.data.designation.validate(), style: secondaryTextStyle(size: 12, weight: FontWeight.bold))),
+                                          Marquee(
+                                              child: Text(
+                                                  widget.data.designation
+                                                      .validate(),
+                                                  style: secondaryTextStyle(
+                                                      size: 12,
+                                                      weight:
+                                                          FontWeight.bold))),
                                           4.height,
                                         ],
                                       ),
@@ -172,12 +207,17 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.lblMemberSince, style: secondaryTextStyle(size: 12, weight: FontWeight.bold)),
-                                Text(" ${DateTime.parse(widget.data.createdAt.validate()).year}", style: secondaryTextStyle(size: 12, weight: FontWeight.bold)),
+                                Text(language.lblMemberSince,
+                                    style: secondaryTextStyle(
+                                        size: 12, weight: FontWeight.bold)),
+                                Text(
+                                    " ${DateTime.parse(widget.data.createdAt.validate()).year}",
+                                    style: secondaryTextStyle(
+                                        size: 12, weight: FontWeight.bold)),
                               ],
                             ),
                             8.height,
-                            DisabledRatingBarWidget(rating: widget.forProvider ? widget.data.providersServiceRating.validate() : widget.data.handymanRating.validate()),
+                            // DisabledRatingBarWidget(rating: widget.forProvider ? widget.data.providersServiceRating.validate() : widget.data.handymanRating.validate()),
                           ],
                         ).expand(),
                       ],

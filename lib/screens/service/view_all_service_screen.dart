@@ -1,6 +1,7 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/category_widget.dart';
+import 'package:booking_system_flutter/screens/dashboard/component/sub_category_component.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen_one.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen_two.dart';
 import 'package:booking_system_flutter/store/filter_store.dart';
@@ -147,43 +148,24 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                 style: boldTextStyle(size: LABEL_TEXT_SIZE))
             .paddingLeft(16),
         16.height,
-        VerticalList(
-          itemCount: categoryList.length, // list.validate().length,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          runSpacing: 8,
-          spacing: 12,
-          itemBuilder: (_, index) {
+        GridView.builder(
+          shrinkWrap: true,
+          itemCount: categoryList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemBuilder: (context, index) {
             CategoryData data = categoryList[index];
-
-            return Observer(
-              builder: (_) {
-                // bool isSelected = filterStore.selectedSubCategoryId == index;
-
-                return GestureDetector(
-                  onTap: () {
-                    ViewAllServiceScreenOne(
-                      categoryId: data.id.validate(),
-                      categoryName: data.name,
-                      isFromCategory: true,
-                    ).launch(context);
-
-                    // filterStore.setSelectedSubCategory(catId: index);
-
-                    // subCategory = data.id;
-                    // page = 1;
-
-                    // appStore.setLoading(true);
-                    // fetchAllServiceData();
-
-                    // setState(() {});
-                  },
-                  child: CategoryWidget(
-                    categoryData: data,
-                    isOdd: (index % 2 == 0),
-                  ),
-                );
-              },
-            );
+            return SubCategoryComponentTwo(
+                categoryImage: data.categoryImage.toString(),
+                categoryName: data.name.toString(),
+                onTap: () {
+                  ViewAllServiceScreenOne(
+                    categoryId: data.id.validate(),
+                    categoryName: data.name,
+                    isFromCategory: true,
+                  ).launch(context);
+                });
           },
         ),
         16.height,
@@ -388,7 +370,7 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                     decoration: inputDecoration(context).copyWith(
                       hintText: "${language.lblSearchFor} $setSearchString",
                       prefixIcon: ic_search.iconImage(size: 10).paddingAll(14),
-                      hintStyle: secondaryTextStyle(),
+                      hintStyle: secondaryTextStyle(size: 15),
                     ),
                   ).expand(),
                   16.width,

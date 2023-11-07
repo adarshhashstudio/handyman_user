@@ -211,7 +211,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                             appStore.isCurrentLocation
                                 ? getStringAsync(CURRENT_ADDRESS)
                                 : language.lblLocationOff,
-                            style: secondaryTextStyle(),
+                            style: secondaryTextStyle(size: 15),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ).expand(),

@@ -22,13 +22,19 @@ class BookingDetailHandymanWidget extends StatefulWidget {
   final BookingData bookingDetail;
   final Function() onUpdate;
 
-  BookingDetailHandymanWidget({required this.handymanData, required this.serviceDetail, required this.bookingDetail, required this.onUpdate});
+  BookingDetailHandymanWidget(
+      {required this.handymanData,
+      required this.serviceDetail,
+      required this.bookingDetail,
+      required this.onUpdate});
 
   @override
-  BookingDetailHandymanWidgetState createState() => BookingDetailHandymanWidgetState();
+  BookingDetailHandymanWidgetState createState() =>
+      BookingDetailHandymanWidgetState();
 }
 
-class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget> {
+class BookingDetailHandymanWidgetState
+    extends State<BookingDetailHandymanWidget> {
   int? flag;
 
   @override
@@ -49,7 +55,8 @@ class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecorationWithRoundedCorners(backgroundColor: context.cardColor, borderRadius: radius()),
+      decoration: boxDecorationWithRoundedCorners(
+          backgroundColor: context.cardColor, borderRadius: radius()),
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,13 +73,18 @@ class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget
                 children: [
                   Row(
                     children: [
-                      Text(widget.handymanData.displayName.validate(), style: boldTextStyle()).flexible(),
+                      Text(widget.handymanData.displayName.validate(),
+                              style: boldTextStyle())
+                          .flexible(),
                       16.width,
                       ic_info.iconImage(size: 20),
                     ],
                   ),
                   4.height,
-                  DisabledRatingBarWidget(rating: widget.handymanData.handymanRating.validate().toDouble()),
+                  // DisabledRatingBarWidget(
+                  //     rating: widget.handymanData.handymanRating
+                  //         .validate()
+                  //         .toDouble()),
                 ],
               ).expand()
             ],
@@ -89,7 +101,8 @@ class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget
                     children: [
                       ic_calling.iconImage(size: 18, color: Colors.white),
                       8.width,
-                      Text(language.lblCall, style: boldTextStyle(color: white)),
+                      Text(language.lblCall,
+                          style: boldTextStyle(color: white)),
                     ],
                   ).fit(),
                   width: context.width(),
@@ -114,13 +127,15 @@ class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget
                 color: context.scaffoldBackgroundColor,
                 onTap: () async {
                   toast(language.pleaseWaitWhileWeLoadChatDetails);
-                  UserData? user = await userService.getUserNull(email: widget.handymanData.email.validate());
+                  UserData? user = await userService.getUserNull(
+                      email: widget.handymanData.email.validate());
                   if (user != null) {
                     Fluttertoast.cancel();
                     UserChatScreen(receiverUser: user).launch(context);
                   } else {
                     Fluttertoast.cancel();
-                    toast("${widget.handymanData.firstName} ${language.isNotAvailableForChat}");
+                    toast(
+                        "${widget.handymanData.firstName} ${language.isNotAvailableForChat}");
                   }
                 },
               ).expand(),
@@ -131,12 +146,19 @@ class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget
                 color: context.scaffoldBackgroundColor,
                 onTap: () async {
                   String phoneNumber = "";
-                  if (widget.handymanData.contactNumber.validate().contains('+')) {
-                    phoneNumber = "${widget.handymanData.contactNumber.validate().replaceAll('-', '')}";
+                  if (widget.handymanData.contactNumber
+                      .validate()
+                      .contains('+')) {
+                    phoneNumber =
+                        "${widget.handymanData.contactNumber.validate().replaceAll('-', '')}";
                   } else {
-                    phoneNumber = "+${widget.handymanData.contactNumber.validate().replaceAll('-', '')}";
+                    phoneNumber =
+                        "+${widget.handymanData.contactNumber.validate().replaceAll('-', '')}";
                   }
-                  launchUrl(Uri.parse('${getSocialMediaLink(LinkProvider.WHATSAPP)}$phoneNumber'), mode: LaunchMode.externalApplication);
+                  launchUrl(
+                      Uri.parse(
+                          '${getSocialMediaLink(LinkProvider.WHATSAPP)}$phoneNumber'),
+                      mode: LaunchMode.externalApplication);
                 },
               ),
             ],
@@ -147,7 +169,11 @@ class BookingDetailHandymanWidgetState extends State<BookingDetailHandymanWidget
               onPressed: () {
                 _handleHandymanRatingClick();
               },
-              child: Text(widget.handymanData.handymanReview != null ? language.lblEditYourReview : language.lblRateHandyman, style: boldTextStyle(color: primaryColor)),
+              child: Text(
+                  widget.handymanData.handymanReview != null
+                      ? language.lblEditYourReview
+                      : language.lblRateHandyman,
+                  style: boldTextStyle(color: primaryColor)),
             ).center()
         ],
       ),

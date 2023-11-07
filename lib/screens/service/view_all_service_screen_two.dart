@@ -304,7 +304,7 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                     decoration: inputDecoration(context).copyWith(
                       hintText: "${language.lblSearchFor} $setSearchString",
                       prefixIcon: ic_search.iconImage(size: 10).paddingAll(14),
-                      hintStyle: secondaryTextStyle(),
+                      hintStyle: secondaryTextStyle(size: 15),
                     ),
                   ).expand(),
                   16.width,

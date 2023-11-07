@@ -3,6 +3,8 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/category_model.dart';
 import 'package:booking_system_flutter/screens/category/category_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/category_widget.dart';
+import 'package:booking_system_flutter/screens/dashboard/component/sub_category_component.dart';
+import 'package:booking_system_flutter/screens/service/component/subcategory_component.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -48,121 +50,29 @@ class CategoryComponentState extends State<CategoryComponent> {
             });
           },
         ).paddingSymmetric(horizontal: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: GestureDetector(
+        GridView.builder(
+          shrinkWrap: true,
+          itemCount: widget.categoryList?.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemBuilder: (context, index) {
+            CategoryData data = widget.categoryList![index];
+            return Expanded(
+              child: SubCategoryComponentTwo(
+                categoryImage: data.categoryImage.toString(),
+                categoryName: '${data.name}',
                 onTap: () {
                   ViewAllServiceScreen(
-                          categoryId: widget.categoryList![0].id.validate(),
-                          categoryName: widget.categoryList![0].name,
+                          categoryId: data.id.validate(),
+                          categoryName: data.name,
                           isFromCategory: true)
                       .launch(context);
                 },
-                child: Container(
-                  height: context.height() * 0.18,
-                  margin: EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          height: 40,
-                          width: 40,
-                          child: Image.asset(
-                            widget.categoryList![0].categoryImage.toString(),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              '${widget.categoryList![0].name}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
-                            ).paddingOnly(left: 8, right: 8),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  ViewAllServiceScreen(
-                          categoryId: widget.categoryList![1].id.validate(),
-                          categoryName: widget.categoryList![1].name,
-                          isFromCategory: true)
-                      .launch(context);
-                },
-                child: Container(
-                  height: context.height() * 0.18,
-                  margin: EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          height: 40,
-                          width: 40,
-                          child: Image.asset(
-                            widget.categoryList![1].categoryImage.toString(),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              '${widget.categoryList![1].name}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
-                            ).paddingOnly(left: 8, right: 8),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+            );
+          },
+        )
       ],
     );
   }

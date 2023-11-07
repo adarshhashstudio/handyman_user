@@ -1,5 +1,6 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
+import 'package:booking_system_flutter/screens/dashboard/component/sub_category_component.dart';
 import 'package:booking_system_flutter/screens/service/view_all_service_screen_two.dart';
 import 'package:booking_system_flutter/store/filter_store.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
@@ -158,65 +159,16 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
             : widget.categoryName == "Home Exterior"
                 ? homeExteriorList[index]
                 : homeExteriorList[index];
-        return GestureDetector(
+        return SubCategoryComponentTwo(
+          categoryImage: data.categoryImage.toString(),
+          categoryName: data.name.toString(),
           onTap: () {
             ViewAllServiceScreenTwo(
               categoryId: data.id.validate(),
               categoryName: data.name,
               isFromCategory: true,
             ).launch(context);
-
-            // filterStore.setSelectedSubCategory(catId: index);
-
-            // subCategory = data.id;
-            // page = 1;
-
-            // appStore.setLoading(true);
-            // fetchAllServiceData();
-
-            // setState(() {});
           },
-          child: Container(
-            margin: EdgeInsets.all(15.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: Image.asset(
-                      data.categoryImage.toString(),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  16.height,
-                  Center(
-                    child: Text(
-                      '${data.name}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ).paddingOnly(left: 8, right: 8),
-                  ),
-                ],
-              ),
-            ),
-          ),
         );
       },
     );
@@ -419,7 +371,7 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
                     decoration: inputDecoration(context).copyWith(
                       hintText: "${language.lblSearchFor} $setSearchString",
                       prefixIcon: ic_search.iconImage(size: 10).paddingAll(14),
-                      hintStyle: secondaryTextStyle(),
+                      hintStyle: secondaryTextStyle(size: 15),
                     ),
                   ).expand(),
                   16.width,
