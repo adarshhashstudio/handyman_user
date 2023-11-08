@@ -912,4 +912,8 @@ abstract class BaseLanguage {
   String get by;
 
   String get noPaymentMethodFound;
+
+  String get chooseAction;
+
+  String get selectImgNote;
 }

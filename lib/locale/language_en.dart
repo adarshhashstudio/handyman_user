@@ -1367,4 +1367,11 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get noPaymentMethodFound => 'No Payment Method Found';
+
+  @override
+  String get chooseAction => 'Choose Action';
+
+  @override
+  String get selectImgNote => 'Note: You can upload images with \'jpg\', \'png\', \'jpeg\' extensions & you can select multiple images';
+
 }

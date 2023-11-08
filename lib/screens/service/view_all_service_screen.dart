@@ -143,11 +143,11 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        16.height,
-        Text(language.lblSubcategories,
-                style: boldTextStyle(size: LABEL_TEXT_SIZE))
-            .paddingLeft(16),
-        16.height,
+        // 16.height,
+        // Text(language.lblSubcategories,
+        //         style: boldTextStyle(size: LABEL_TEXT_SIZE))
+        //     .paddingLeft(16),
+        // 16.height,
         GridView.builder(
           shrinkWrap: true,
           itemCount: categoryList.length,

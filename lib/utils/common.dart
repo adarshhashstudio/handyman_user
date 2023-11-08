@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:booking_system_flutter/component/app_common_dialog.dart';
 import 'package:booking_system_flutter/component/html_widget.dart';
@@ -21,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as custom_tabs;
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:html/parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -424,4 +426,14 @@ Future<bool> compareValuesInSharedPreference(String key, dynamic value) async {
     await setValue(key, value);
   }
   return status;
+}
+
+Future<List<File>> getMultipleImageSource({bool isCamera = true}) async {
+  final pickedImage = await ImagePicker().pickMultiImage();
+  return pickedImage.map((e) => File(e.path)).toList();
+}
+
+Future<File> getCameraImage({bool isCamera = true}) async {
+  final pickedImage = await ImagePicker().pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+  return File(pickedImage!.path);
 }

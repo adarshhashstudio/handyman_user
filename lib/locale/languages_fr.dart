@@ -1365,4 +1365,11 @@ class LanguageFr extends BaseLanguage {
 
   @override
   String get noPaymentMethodFound => 'Aucun mode de paiement trouvé';
+
+  @override
+  String get chooseAction => 'Choisir une action';
+
+  @override
+  String get selectImgNote => "Remarque: vous pouvez télécharger des images avec \ 'jpg \', \ 'png \', \ 'jpeg \' extensions et vous pouvez sélectionner plusieurs images";
+
 }

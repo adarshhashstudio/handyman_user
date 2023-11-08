@@ -248,12 +248,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     doIfLoggedIn(context, () {
       serviceDetailResponse.serviceDetail!.bookingAddressId =
           selectedBookingAddressId;
-      BookServiceScreen(
-              data: serviceDetailResponse, selectedPackage: selectedPackage)
-          .launch(context)
-          .then((value) {
-        setStatusBarColor(transparentColor);
-      });
+      // BookServiceScreen(
+      //         data: serviceDetailResponse, selectedPackage: selectedPackage)
+      //     .launch(context)
+      //     .then((value) {
+      //   setStatusBarColor(transparentColor);
+      // });
     });
   }
 

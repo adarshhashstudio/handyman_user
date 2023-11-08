@@ -42,9 +42,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         appStore.setDarkMode(context.platformBrightness() == Brightness.dark);
       }
 
-      View.of(context).platformDispatcher.onPlatformBrightnessChanged = () async {
+      View.of(context).platformDispatcher.onPlatformBrightnessChanged =
+          () async {
         if (getIntAsync(THEME_MODE_INDEX) == THEME_MODE_SYSTEM) {
-          appStore.setDarkMode(MediaQuery.of(context).platformBrightness == Brightness.light);
+          appStore.setDarkMode(
+              MediaQuery.of(context).platformBrightness == Brightness.light);
         }
       };
     });
@@ -55,21 +57,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void init() async {
     if (isMobile) {
       /// Handle Notification click and redirect to that Service & BookDetail screen
-      OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult notification) async {
+      OneSignal.shared.setNotificationOpenedHandler(
+          (OSNotificationOpenedResult notification) async {
         if (notification.notification.additionalData == null) return;
 
         if (notification.notification.additionalData!.containsKey('id')) {
-          String? notId = notification.notification.additionalData!["id"].toString();
+          String? notId =
+              notification.notification.additionalData!["id"].toString();
           if (notId.validate().isNotEmpty) {
-            BookingDetailScreen(bookingId: notId.toString().toInt()).launch(context);
+            BookingDetailScreen(bookingId: notId.toString().toInt())
+                .launch(context);
           }
-        } else if (notification.notification.additionalData!.containsKey('service_id')) {
-          String? notId = notification.notification.additionalData!["service_id"];
+        } else if (notification.notification.additionalData!
+            .containsKey('service_id')) {
+          String? notId =
+              notification.notification.additionalData!["service_id"];
           if (notId.validate().isNotEmpty) {
             ServiceDetailScreen(serviceId: notId.toInt()).launch(context);
           }
-        } else if (notification.notification.additionalData!.containsKey('sender_uid')) {
-          String? notId = notification.notification.additionalData!["sender_uid"];
+        } else if (notification.notification.additionalData!
+            .containsKey('sender_uid')) {
+          String? notId =
+              notification.notification.additionalData!["sender_uid"];
           if (notId.validate().isNotEmpty) {
             currentIndex = 3;
             setState(() {});
@@ -94,9 +103,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
         body: [
           DashboardFragment(),
-          Observer(builder: (context) => appStore.isLoggedIn ? BookingFragment() : SignInScreen(isFromDashboard: true)),
-          CategoryScreen(),
-          Observer(builder: (context) => appStore.isLoggedIn ? ChatListScreen() : SignInScreen(isFromDashboard: true)),
+          Observer(
+              builder: (context) => appStore.isLoggedIn
+                  ? BookingFragment()
+                  : SignInScreen(isFromDashboard: true)),
+          // CategoryScreen(),
+          // Observer(builder: (context) => appStore.isLoggedIn ? ChatListScreen() : SignInScreen(isFromDashboard: true)),
           ProfileFragment(),
         ][currentIndex],
         bottomNavigationBar: Blur(
@@ -106,7 +118,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             data: NavigationBarThemeData(
               backgroundColor: context.primaryColor.withOpacity(0.02),
               indicatorColor: context.primaryColor.withOpacity(0.1),
-              labelTextStyle: MaterialStateProperty.all(primaryTextStyle(size: 12)),
+              labelTextStyle:
+                  MaterialStateProperty.all(primaryTextStyle(size: 12)),
               surfaceTintColor: Colors.transparent,
               shadowColor: Colors.transparent,
             ),
@@ -120,22 +133,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 NavigationDestination(
                   icon: ic_ticket.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: ic_ticket.iconImage(color: context.primaryColor),
-                  label: language.booking,
+                  selectedIcon:
+                      ic_ticket.iconImage(color: context.primaryColor),
+                  label: 'Service Request',
                 ),
-                NavigationDestination(
-                  icon: ic_category.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: ic_category.iconImage(color: context.primaryColor),
-                  label: language.category,
-                ),
-                NavigationDestination(
-                  icon: ic_chat.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: ic_chat.iconImage(color: context.primaryColor),
-                  label: language.lblChat,
-                ),
+                // NavigationDestination(
+                //   icon: ic_category.iconImage(color: appTextSecondaryColor),
+                //   selectedIcon: ic_category.iconImage(color: context.primaryColor),
+                //   label: language.category,
+                // ),
+                // NavigationDestination(
+                //   icon: ic_chat.iconImage(color: appTextSecondaryColor),
+                //   selectedIcon: ic_chat.iconImage(color: context.primaryColor),
+                //   label: language.lblChat,
+                // ),
                 NavigationDestination(
                   icon: ic_profile2.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: ic_profile2.iconImage(color: context.primaryColor),
+                  selectedIcon:
+                      ic_profile2.iconImage(color: context.primaryColor),
                   label: language.profile,
                 ),
               ],

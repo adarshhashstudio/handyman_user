@@ -61,6 +61,7 @@ dependencies:
   flutterwave_standard: ^1.0.8
   flutter_stripe: ^9.3.0
   cinetpay: ^1.0.7
+  dotted_border: ^2.1.0
 
   #  flutter_braintree: ^3.0.0 Remove due to play store does not approving the app
 

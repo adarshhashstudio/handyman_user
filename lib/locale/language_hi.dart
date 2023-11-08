@@ -1365,4 +1365,11 @@ class LanguageHi extends BaseLanguage {
 
   @override
   String get noPaymentMethodFound => 'कोई भुगतान विधि नहीं मिली';
+
+  @override
+  String get chooseAction => 'कार्रवाई का चयन';
+
+  @override
+  String get selectImgNote => "नोट: आप 'jpg','png','jpeg ' एक्सटेंशन के साथ छवियों को अपलोड कर सकते हैं और आप एकाधिक छवियों का चयन कर सकते हैं";
+
 }

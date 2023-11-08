@@ -166,12 +166,16 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                       setState(() {});
                     },
                   ),
-                  30.height,
+                  if (snap.upcomingData != null &&
+                      snap.upcomingData!.isNotEmpty)
+                    30.height,
                   PendingBookingComponent(upcomingData: snap.upcomingData),
                   // CategoryComponent(categoryList: snap.category.validate()),
                   // 16.height,
                   // FeaturedServiceListComponent(serviceList: snap.featuredServices.validate()),
                   // ServiceListComponent(serviceList: snap.service.validate()),
+                  if (snap.upcomingData == null || snap.upcomingData!.isEmpty)
+                    12.height,
                   CategoryComponent(categoryList: [
                     CategoryData(
                         id: 1,
@@ -184,7 +188,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                         name: "Concierge Services",
                         categoryImage: "assets/images/concierge-services.png")
                   ]),
-                  32.height,
+                  12.height,
                   NewJobRequestComponent(),
                 ],
               );

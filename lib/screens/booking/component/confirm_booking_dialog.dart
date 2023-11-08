@@ -3,6 +3,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/package_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
+import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
@@ -117,18 +118,21 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
       } else {
         finish(context);
         finish(context);
-        showInDialog(
-          context,
-          builder: (BuildContext context) => BookingConfirmationDialog(
-            data: widget.data,
-            bookingId: bookingDetailResponse.bookingDetail!.id,
-            bookingPrice: widget.bookingPrice,
-            selectedPackage: widget.selectedPackage,
-            bookingDetailResponse: bookingDetailResponse,
-          ),
-          backgroundColor: transparentColor,
-          contentPadding: EdgeInsets.zero,
-        );
+        // showInDialog(
+        //   context,
+        //   builder: (BuildContext context) => BookingConfirmationDialog(
+        //     data: widget.data,
+        //     bookingId: bookingDetailResponse.bookingDetail!.id,
+        //     bookingPrice: widget.bookingPrice,
+        //     selectedPackage: widget.selectedPackage,
+        //     bookingDetailResponse: bookingDetailResponse,
+        //   ),
+        //   backgroundColor: transparentColor,
+        //   contentPadding: EdgeInsets.zero,
+        // );
+        DashboardScreen(redirectToBooking: true).launch(context,
+                            isNewTask: true,
+                            pageRouteAnimation: PageRouteAnimation.Fade);
       }
     }).catchError((e) {
       appStore.setLoading(false);

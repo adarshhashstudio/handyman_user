@@ -151,7 +151,7 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
               ? homeExteriorList.length
               : [].length, // list.validate().length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
       ),
       itemBuilder: (context, index) {
         CategoryData data = widget.categoryName == "Home Interior"
@@ -162,6 +162,7 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
         return SubCategoryComponentTwo(
           categoryImage: data.categoryImage.toString(),
           categoryName: data.name.toString(),
+          crossAxisCount: 3,
           onTap: () {
             ViewAllServiceScreenTwo(
               categoryId: data.id.validate(),

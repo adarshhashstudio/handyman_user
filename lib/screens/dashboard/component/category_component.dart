@@ -41,15 +41,15 @@ class CategoryComponentState extends State<CategoryComponent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ViewAllLabel(
-          label: language.category,
-          list: widget.categoryList!,
-          onTap: () {
-            CategoryScreen().launch(context).then((value) {
-              setStatusBarColor(Colors.transparent);
-            });
-          },
-        ).paddingSymmetric(horizontal: 16),
+        // ViewAllLabel(
+        //   label: language.category,
+        //   list: widget.categoryList!,
+        //   onTap: () {
+        //     CategoryScreen().launch(context).then((value) {
+        //       setStatusBarColor(Colors.transparent);
+        //     });
+        //   },
+        // ).paddingSymmetric(horizontal: 16),
         GridView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),

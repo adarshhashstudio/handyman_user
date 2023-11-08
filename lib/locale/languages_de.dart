@@ -1365,4 +1365,11 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get noPaymentMethodFound => 'Keine Zahlungsmethode gefunden';
+
+  @override
+  String get chooseAction => 'Wähle eine Aktion';
+
+  @override
+  String get selectImgNote => "HINWEIS: Sie können Bilder mit \ 'jpg \', \ 'png \', \ 'jpeg \'-Erweiterungen hochladen, und Sie können mehrere Bilder auswählen";
+
 }

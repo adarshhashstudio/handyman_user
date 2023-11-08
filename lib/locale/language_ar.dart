@@ -1365,4 +1365,11 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get noPaymentMethodFound => 'لم يتم العثور على طريقة دفع';
+  
+  @override
+  String get chooseAction => 'اختر الإجراء';
+
+  @override
+  String get selectImgNote => "ملاحظة: يمكنك تحميل الصور من نوع \ 'jpg \'، \ 'png \'، \ 'jpeg \' extensions & يمكنك تحديد صور متعددة";
+
 }

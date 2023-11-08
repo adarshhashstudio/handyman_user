@@ -3,6 +3,8 @@ import 'package:nb_utils/nb_utils.dart';
 /// DO NOT CHANGE THIS PACKAGE NAME
 var appPackageName = isAndroid ? 'com.iqonic.servicebooking' : 'com.iqonic.user';
 
+enum GalleryFileTypes { CANCEL, CAMERA, GALLERY }
+
 //region Common Configs
 const DEFAULT_FIREBASE_PASSWORD = '12345678';
 const DECIMAL_POINT = 2;

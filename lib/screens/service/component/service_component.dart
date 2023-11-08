@@ -5,6 +5,8 @@ import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/package_data_model.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
+import 'package:booking_system_flutter/model/service_detail_response.dart';
+import 'package:booking_system_flutter/screens/booking/book_service_screen.dart';
 import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart';
 import 'package:booking_system_flutter/screens/service/service_detail_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
@@ -58,15 +60,21 @@ class ServiceComponentState extends State<ServiceComponent> {
     return GestureDetector(
       onTap: () {
         hideKeyboard(context);
-        ServiceDetailScreen(
-                service: widget.serviceData,
-                serviceId: widget.isFavouriteService
-                    ? widget.serviceData!.serviceId.validate().toInt()
-                    : widget.serviceData!.id.validate())
-            .launch(context)
-            .then((value) {
-          setStatusBarColor(context.primaryColor);
-        });
+        // ServiceDetailScreen(
+        //         service: widget.serviceData,
+        //         serviceId: widget.isFavouriteService
+        //             ? widget.serviceData!.serviceId.validate().toInt()
+        //             : widget.serviceData!.id.validate())
+        //     .launch(context)
+        //     .then((value) {
+        //   setStatusBarColor(context.primaryColor);
+        // });
+        BookServiceScreen(
+              serviceId: widget.serviceData!.id!)
+          .launch(context)
+          .then((value) {
+        setStatusBarColor(transparentColor);
+      });
       },
       child: Container(
         width: context.width() / 4 - 20,

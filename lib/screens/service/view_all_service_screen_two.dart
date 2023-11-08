@@ -124,10 +124,10 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            16.height,
-            Text(language.lblSubcategories,
-                    style: boldTextStyle(size: LABEL_TEXT_SIZE))
-                .paddingLeft(16),
+            // 16.height,
+            // Text(language.lblSubcategories,
+            //         style: boldTextStyle(size: LABEL_TEXT_SIZE))
+            //     .paddingLeft(16),
             HorizontalList(
               itemCount: list.validate().length,
               padding: EdgeInsets.only(left: 16, right: 16),

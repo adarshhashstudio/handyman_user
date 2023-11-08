@@ -65,7 +65,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
 
   Widget getSliderWidget() {
     return SizedBox(
-      height: context.height() * 0.30,
+      height: context.height() * 0.25,
       width: context.width(),
       child: Stack(
         children: [
@@ -95,7 +95,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
               : CachedImageWidget(url: '', height: 250, width: context.width()),
           if (widget.sliderList.length.validate() > 1)
             Positioned(
-              bottom: 34,
+              bottom: 0,
               left: 0,
               right: 0,
               child: DotIndicator(
@@ -185,69 +185,69 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
             ),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          right: 16,
-          left: 16,
-          child: Row(
-            children: [
-              Observer(
-                builder: (context) {
-                  return AppButton(
-                    padding: EdgeInsets.all(0),
-                    width: context.width(),
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: commonDecoration,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ic_location.iconImage(
-                              color: appStore.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black),
-                          8.width,
-                          Text(
-                            appStore.isCurrentLocation
-                                ? getStringAsync(CURRENT_ADDRESS)
-                                : language.lblLocationOff,
-                            style: secondaryTextStyle(size: 15),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ).expand(),
-                          8.width,
-                          ic_active_location.iconImage(
-                              size: 24,
-                              color: appStore.isCurrentLocation
-                                  ? primaryColor
-                                  : grey),
-                        ],
-                      ),
-                    ),
-                    onTap: () async {
-                      locationWiseService(context, () {
-                        widget.callback?.call();
-                      });
-                    },
-                  );
-                },
-              ).expand(),
-              16.width,
-              GestureDetector(
-                onTap: () {
-                  ViewAllServiceScreen(
-                    isFromSearch: true,
-                  ).launch(context);
-                },
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: commonDecoration,
-                  child: ic_search.iconImage(color: primaryColor),
-                ),
-              ),
-            ],
-          ),
-        ),
+        // Positioned(
+        //   bottom: 0,
+        //   right: 16,
+        //   left: 16,
+        //   child: Row(
+        //     children: [
+        //       Observer(
+        //         builder: (context) {
+        //           return AppButton(
+        //             padding: EdgeInsets.all(0),
+        //             width: context.width(),
+        //             child: Container(
+        //               padding: EdgeInsets.all(16),
+        //               decoration: commonDecoration,
+        //               child: Row(
+        //                 crossAxisAlignment: CrossAxisAlignment.center,
+        //                 children: [
+        //                   ic_location.iconImage(
+        //                       color: appStore.isDarkMode
+        //                           ? Colors.white
+        //                           : Colors.black),
+        //                   8.width,
+        //                   Text(
+        //                     appStore.isCurrentLocation
+        //                         ? getStringAsync(CURRENT_ADDRESS)
+        //                         : language.lblLocationOff,
+        //                     style: secondaryTextStyle(size: 15),
+        //                     maxLines: 2,
+        //                     overflow: TextOverflow.ellipsis,
+        //                   ).expand(),
+        //                   8.width,
+        //                   ic_active_location.iconImage(
+        //                       size: 24,
+        //                       color: appStore.isCurrentLocation
+        //                           ? primaryColor
+        //                           : grey),
+        //                 ],
+        //               ),
+        //             ),
+        //             onTap: () async {
+        //               locationWiseService(context, () {
+        //                 widget.callback?.call();
+        //               });
+        //             },
+        //           );
+        //         },
+        //       ).expand(),
+        //       16.width,
+        //       GestureDetector(
+        //         onTap: () {
+        //           ViewAllServiceScreen(
+        //             isFromSearch: true,
+        //           ).launch(context);
+        //         },
+        //         child: Container(
+        //           padding: EdgeInsets.all(16),
+        //           decoration: commonDecoration,
+        //           child: ic_search.iconImage(color: primaryColor),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
