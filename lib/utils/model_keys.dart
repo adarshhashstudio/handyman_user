@@ -13,6 +13,8 @@ class CommonKeys {
   static String paymentStatus = "payment_status";
   static String paymentMethod = "payment_type";
   static String advancePaidAmount = "advance_paid_amount";
+  static String attachmentCount = 'attachment_count';
+  static String serviceAttachment = 'booking_attachment_';
 }
 
 class UserKeys {

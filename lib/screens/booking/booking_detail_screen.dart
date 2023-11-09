@@ -31,6 +31,7 @@ import 'package:booking_system_flutter/screens/payment/payment_screen.dart';
 import 'package:booking_system_flutter/screens/review/components/review_widget.dart';
 import 'package:booking_system_flutter/screens/review/rating_view_all_screen.dart';
 import 'package:booking_system_flutter/screens/service/service_detail_screen.dart';
+import 'package:booking_system_flutter/screens/zoom_image_screen.dart';
 import 'package:booking_system_flutter/utils/booking_calculations_logic.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
@@ -1228,6 +1229,66 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
 
                       /// Description
                       descriptionWidget(value: snap.data!),
+
+                      // Attachments
+
+                      if ((snap.data?.bookingDetail?.attchment != null &&
+                          snap.data!.bookingDetail!.attchment!.isNotEmpty))
+                        10.height,
+                      if ((snap.data?.bookingDetail?.attchment != null &&
+                          snap.data!.bookingDetail!.attchment!.isNotEmpty))
+                        Text(
+                          'Attachments',
+                          style: boldTextStyle(
+                              size: LABEL_TEXT_SIZE,
+                              color: appStore.isDarkMode ? white : black),
+                        ),
+                      if ((snap.data?.bookingDetail?.attchment != null &&
+                          snap.data!.bookingDetail!.attchment!.isNotEmpty))
+                        10.height,
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: snap.data?.bookingDetail?.attchment?.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (snap.data?.bookingDetail?.attchment?[index] !=
+                                  null)
+                                ZoomImageScreen(galleryImages: [
+                                  snap.data?.bookingDetail?.attchment?[index] ??
+                                      'https://picsum.photos/200'
+                                ], index: 0)
+                                    .launch(context);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                                child: CachedImageWidget(
+                                  url: snap.data?.bookingDetail
+                                          ?.attchment?[index] ??
+                                      '',
+                                  height: context.height(),
+                                  fit: BoxFit.cover,
+                                  placeHolderImage: 'assets/ic_launcher.png',
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
 
                       /// Service Proof
                       serviceProofListWidget(

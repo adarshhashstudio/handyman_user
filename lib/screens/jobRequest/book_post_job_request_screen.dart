@@ -198,7 +198,7 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
 
     log(widget.postJobDetailResponse.postRequestDetail!.toJson());
 
-    Map request = {
+    Map<String, dynamic> request = {
       CommonKeys.id: "",
       PostJob.postRequestId: widget.postJobDetailResponse.postRequestDetail!.id.validate(),
       CommonKeys.serviceId: serviceId,

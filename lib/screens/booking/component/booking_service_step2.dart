@@ -554,30 +554,33 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                     //   widget.data.serviceDetail!.address = addressCont.text;
                     //   customStepperController.nextPage(
                     //       duration: 200.milliseconds, curve: Curves.easeOut);
-                    // }
-                    showInDialog(
-                      context,
-                      builder: (p0) {
-                        return ConfirmBookingDialog(
-                          data: widget.data,
-                          bookingPrice:
-                              bookingAmountModel.finalGrandTotalAmount,
-                          selectedPackage: widget.selectedPackage,
-                          qty: itemCount,
-                          couponCode: appliedCouponData?.code,
-                          bookingAmountModel: BookingAmountModel(
-                            finalCouponDiscountAmount:
-                                bookingAmountModel.finalCouponDiscountAmount,
-                            finalDiscountAmount:
-                                bookingAmountModel.finalDiscountAmount,
-                            finalSubTotal: bookingAmountModel.finalSubTotal,
-                            finalTotalServicePrice:
-                                bookingAmountModel.finalTotalServicePrice,
-                            finalTotalTax: bookingAmountModel.finalTotalTax,
-                          ),
-                        );
-                      },
-                    );
+                    //
+                    doIfLoggedIn(context, () {
+                      showInDialog(
+                        context,
+                        builder: (p0) {
+                          return ConfirmBookingDialog(
+                            data: widget.data,
+                            bookingPrice:
+                                bookingAmountModel.finalGrandTotalAmount,
+                            selectedPackage: widget.selectedPackage,
+                            qty: itemCount,
+                            couponCode: appliedCouponData?.code,
+                            imagesFile: imageFiles,
+                            bookingAmountModel: BookingAmountModel(
+                              finalCouponDiscountAmount:
+                                  bookingAmountModel.finalCouponDiscountAmount,
+                              finalDiscountAmount:
+                                  bookingAmountModel.finalDiscountAmount,
+                              finalSubTotal: bookingAmountModel.finalSubTotal,
+                              finalTotalServicePrice:
+                                  bookingAmountModel.finalTotalServicePrice,
+                              finalTotalTax: bookingAmountModel.finalTotalTax,
+                            ),
+                          );
+                        },
+                      );
+                    });
                   },
                   text: language.btnNext,
                   textColor: Colors.white,

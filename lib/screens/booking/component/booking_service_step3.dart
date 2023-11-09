@@ -626,24 +626,24 @@ class _BookingServiceStep3State extends State<BookingServiceStep3> {
                     showInDialog(
                       context,
                       builder: (p0) {
-                        return ConfirmBookingDialog(
-                          data: widget.data,
-                          bookingPrice:
-                              bookingAmountModel.finalGrandTotalAmount,
-                          selectedPackage: widget.selectedPackage,
-                          qty: itemCount,
-                          couponCode: appliedCouponData?.code,
-                          bookingAmountModel: BookingAmountModel(
-                            finalCouponDiscountAmount:
-                                bookingAmountModel.finalCouponDiscountAmount,
-                            finalDiscountAmount:
-                                bookingAmountModel.finalDiscountAmount,
-                            finalSubTotal: bookingAmountModel.finalSubTotal,
-                            finalTotalServicePrice:
-                                bookingAmountModel.finalTotalServicePrice,
-                            finalTotalTax: bookingAmountModel.finalTotalTax,
-                          ),
-                        );
+                        // return ConfirmBookingDialog(
+                        //   data: widget.data,
+                        //   bookingPrice:
+                        //       bookingAmountModel.finalGrandTotalAmount,
+                        //   selectedPackage: widget.selectedPackage,
+                        //   qty: itemCount,
+                        //   couponCode: appliedCouponData?.code,
+                        //   bookingAmountModel: BookingAmountModel(
+                        //     finalCouponDiscountAmount:
+                        //         bookingAmountModel.finalCouponDiscountAmount,
+                        //     finalDiscountAmount:
+                        //         bookingAmountModel.finalDiscountAmount,
+                        //     finalSubTotal: bookingAmountModel.finalSubTotal,
+                        //     finalTotalServicePrice:
+                        //         bookingAmountModel.finalTotalServicePrice,
+                        //     finalTotalTax: bookingAmountModel.finalTotalTax,
+                        //   ),
+                        // );
                       },
                     );
                   },

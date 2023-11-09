@@ -57,6 +57,26 @@ class _ViewAllServiceScreenOneState extends State<ViewAllServiceScreenOne> {
         id: 11,
         name: "Elecritical",
         categoryImage: "assets/images/electric.png"),
+    CategoryData(
+        id: 14, name: "Drywall", categoryImage: "assets/services/drywall.png"),
+    CategoryData(
+        id: 15, name: "Paint", categoryImage: "assets/services/paint.png"),
+    CategoryData(
+        id: 16,
+        name: "Trim Carpentry",
+        categoryImage: "assets/services/trim-carpenter.png"),
+    CategoryData(
+        id: 17, name: "Flooring", categoryImage: "assets/services/flooring.png"),
+    CategoryData(
+        id: 18,
+        name: "Countertops",
+        categoryImage: "assets/services/countertop.png"),
+    CategoryData(
+        id: 19, name: "Glass", categoryImage: "assets/services/glass.png"),
+    CategoryData(
+        id: 20,
+        name: "Windows/Doors",
+        categoryImage: "assets/services/door.png"),
   ];
   List<CategoryData> homeExteriorList = [
     CategoryData(id: 12, name: "Yard", categoryImage: "assets/images/yard.jpg"),
