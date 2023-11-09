@@ -74,7 +74,7 @@ class _BookingFragmentState extends State<BookingFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(
-        'Service Request',
+        'Service Requests',
         textColor: white,
         showBack: false,
         textSize: APP_BAR_TEXT_SIZE,

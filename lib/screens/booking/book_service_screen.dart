@@ -80,7 +80,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(
-        language.bookTheService,
+        'Request Service',
         textColor: Colors.white,
         color: context.primaryColor,
         backWidget: BackWidget(),
@@ -102,7 +102,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         onSuccess: (snap) => BookingServiceStep2(
           data: snap,
           isSlotAvailable: !snap.serviceDetail!.isSlotAvailable,
-          selectedPackage: widget.selectedPackage != null ? widget.selectedPackage : null,
+          selectedPackage:
+              widget.selectedPackage != null ? widget.selectedPackage : null,
         ),
 
         //  Container(

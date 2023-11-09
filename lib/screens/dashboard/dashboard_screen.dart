@@ -135,7 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   icon: ic_ticket.iconImage(color: appTextSecondaryColor),
                   selectedIcon:
                       ic_ticket.iconImage(color: context.primaryColor),
-                  label: 'Service Request',
+                  label: 'Service Requests',
                 ),
                 // NavigationDestination(
                 //   icon: ic_category.iconImage(color: appTextSecondaryColor),

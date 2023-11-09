@@ -132,7 +132,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          language.lblBookingID,
+          'Request ID',
           style: boldTextStyle(
               size: LABEL_TEXT_SIZE,
               color: appStore.isDarkMode ? white : gray.withOpacity(0.8)),
@@ -796,20 +796,21 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                     SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
                 bookingResponse.bookingDetail!.status ==
                     BookingStatusKeys.complete))) {
-      return AppButton(
-        text: bookingResponse.bookingDetail!.paymentStatus ==
-                    SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
-                bookingResponse.bookingDetail!.status ==
-                    BookingStatusKeys.complete
-            ? language.lblPayNow
-            : language.payAdvance,
-        textColor: Colors.white,
-        color: Colors.green,
-        onTap: () {
-          PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
-              .launch(context);
-        },
-      ).paddingOnly(left: 16, right: 16, bottom: 16);
+      return Container();
+      // AppButton(
+      //   text: bookingResponse.bookingDetail!.paymentStatus ==
+      //               SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
+      //           bookingResponse.bookingDetail!.status ==
+      //               BookingStatusKeys.complete
+      //       ? language.lblPayNow
+      //       : language.payAdvance,
+      //   textColor: Colors.white,
+      //   color: Colors.green,
+      //   onTap: () {
+      //     PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
+      //         .launch(context);
+      //   },
+      // ).paddingOnly(left: 16, right: 16, bottom: 16);
     } else if (bookingResponse.bookingDetail!.status ==
             BookingStatusKeys.pending ||
         bookingResponse.bookingDetail!.status == BookingStatusKeys.accept) {
@@ -892,15 +893,16 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
             bookingResponse.bookingDetail!.paymentMethod ==
                 PAYMENT_METHOD_COD) &&
         bookingResponse.bookingDetail!.paymentId == null) {
-      return AppButton(
-        text: language.lblPayNow,
-        textColor: Colors.white,
-        color: Colors.green,
-        onTap: () {
-          PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
-              .launch(context);
-        },
-      ).paddingOnly(left: 16, right: 16, bottom: 16);
+      return Container();
+      // AppButton(
+      //   text: language.lblPayNow,
+      //   textColor: Colors.white,
+      //   color: Colors.green,
+      //   onTap: () {
+      //     PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
+      //         .launch(context);
+      //   },
+      // ).paddingOnly(left: 16, right: 16, bottom: 16);
     } else if (!bookingResponse.bookingDetail!.isFreeService &&
         bookingResponse.bookingDetail!.status == BookingStatusKeys.complete &&
         !isSentInvoiceOnEmail) {
