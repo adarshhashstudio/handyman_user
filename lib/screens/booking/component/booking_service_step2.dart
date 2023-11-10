@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:booking_system_flutter/app_theme.dart';
 import 'package:booking_system_flutter/component/app_common_dialog.dart';
@@ -24,6 +25,7 @@ import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -545,7 +547,7 @@ class _BookingServiceStep2State extends State<BookingServiceStep2> {
                 //   ).expand(),
                 // if (!widget.isSlotAvailable.validate()) 16.width,
                 AppButton(
-                  onTap: () {
+                  onTap: () async {
                     hideKeyboard(context);
                     // if (formKey.currentState!.validate()) {
                     //   formKey.currentState!.save();

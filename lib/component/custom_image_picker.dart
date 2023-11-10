@@ -7,14 +7,21 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CustomImagePicker extends StatefulWidget {
   final Function(List<File> files) onFileSelected;
   final Function(String value)? onRemoveClick;
   final List<String>? selectedImages;
 
-  CustomImagePicker({Key? key, required this.onFileSelected, this.selectedImages, this.onRemoveClick}) : super(key: key);
+  CustomImagePicker(
+      {Key? key,
+      required this.onFileSelected,
+      this.selectedImages,
+      this.onRemoveClick})
+      : super(key: key);
 
   @override
   _CustomImagePickerState createState() => _CustomImagePickerState();
@@ -50,6 +57,20 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
     if (mounted) super.setState(fn);
   }
 
+  Future<void> getLostData() async {
+    final ImagePicker picker = ImagePicker();
+    final LostDataResponse response = await picker.retrieveLostData();
+    if (response.isEmpty) {
+      return;
+    }
+    final List<XFile>? files = response.files;
+    if (files != null) {
+      imageFiles.add(File(files[0].path));
+    } else {
+      debugPrint(response.exception.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -76,6 +97,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                     }
                     setState(() {});
                   });
+                  await getLostData();
                 } else if (file == GalleryFileTypes.GALLERY) {
                   await getMultipleImageSource().then((value) {
                     if (imageFiles.validate().isNotEmpty) {
@@ -98,7 +120,10 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
             child: Container(
               padding: EdgeInsets.all(26),
               alignment: Alignment.center,
-              decoration: boxDecorationWithShadow(blurRadius: 0, backgroundColor: context.cardColor, borderRadius: radius()),
+              decoration: boxDecorationWithShadow(
+                  blurRadius: 0,
+                  backgroundColor: context.cardColor,
+                  borderRadius: radius()),
               child: Column(
                 children: [
                   ic_no_photo.iconImage(size: 46),
@@ -135,7 +160,8 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                     width: 80,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      return PlaceHolderWidget(height: 80, alignment: Alignment.center);
+                      return PlaceHolderWidget(
+                          height: 80, alignment: Alignment.center);
                     },
                   ).cornerRadiusWithClipRRect(defaultRadius),
                 Positioned(

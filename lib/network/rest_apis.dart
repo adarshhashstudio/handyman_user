@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:booking_system_flutter/main.dart';
@@ -767,22 +769,38 @@ Future<void> saveBooking(Map request, {List<File>? imageFile}) async {
   // Set headers
   multiPartRequest.headers['authorization'] = 'Bearer ${appStore.token}';
 
-  if (imageFile.validate().isNotEmpty) {
-    // multiPartRequest.files.addAll(await getMultipartImages(
-    //     files: imageFile.validate(), name: CommonKeys.serviceAttachment));
-    // multiPartRequest.fields[CommonKeys.attachmentCount] =
-    //     imageFile.validate().length.toString();
+  // if (imageFile.validate().isNotEmpty) {
+  //   if (imageFile != null && imageFile.isNotEmpty) {
+  //     for (var i = 0; i < imageFile.length; i++) {
+  //       multiPartRequest.files.add(
+  //         await http.MultipartFile.fromPath(
+  //           'booking_attachment[]',
+  //           imageFile[i].path,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
 
-    // Add file(s)
-    if (imageFile != null && imageFile.isNotEmpty) {
-      for (var i = 0; i < imageFile.length; i++) {
-        multiPartRequest.files.add(
-          await http.MultipartFile.fromPath(
-            'booking_attachment[]',
-            imageFile[i].path,
-          ),
-        );
-      }
+  if (imageFile != null && imageFile.isNotEmpty) {
+    for (var i = 0; i < imageFile.length; i++) {
+      // Compress the image
+      Uint8List? compressedImage = await FlutterImageCompress.compressWithFile(
+        imageFile[i].path,
+        quality: 75,
+      );
+
+      // Convert Uint8List to List<int>
+      List<int> compressedImageList = compressedImage!.cast();
+
+      // Add the compressed image to the request
+      multiPartRequest.files.add(
+        http.MultipartFile.fromBytes(
+          'booking_attachment[]',
+          compressedImageList,
+          filename: 'compressed_image_$i.jpg',
+        ),
+      );
     }
   }
 

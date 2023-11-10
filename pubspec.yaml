@@ -19,6 +19,7 @@ dependencies:
   intl: ^0.18.0
   cached_network_image: ^3.2.3
   url_launcher: ^6.1.12
+  flutter_image_compress: ^2.1.0
 
   # FIREBASE
   firebase_core: ^2.15.1
