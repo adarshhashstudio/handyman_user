@@ -6,6 +6,7 @@ import 'package:booking_system_flutter/screens/chat/chat_list_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/fragment/booking_fragment.dart';
 import 'package:booking_system_flutter/screens/dashboard/fragment/dashboard_fragment.dart';
 import 'package:booking_system_flutter/screens/dashboard/fragment/profile_fragment.dart';
+import 'package:booking_system_flutter/screens/notification/notification_screen.dart';
 import 'package:booking_system_flutter/screens/service/service_detail_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
@@ -107,6 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               builder: (context) => appStore.isLoggedIn
                   ? BookingFragment()
                   : SignInScreen(isFromDashboard: true)),
+          if (appStore.isLoggedIn) NotificationScreen(),
           // CategoryScreen(),
           // Observer(builder: (context) => appStore.isLoggedIn ? ChatListScreen() : SignInScreen(isFromDashboard: true)),
           ProfileFragment(),
@@ -135,8 +137,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   icon: ic_ticket.iconImage(color: appTextSecondaryColor),
                   selectedIcon:
                       ic_ticket.iconImage(color: context.primaryColor),
-                  label: 'Service Requests',
+                  label: 'Requests',
                 ),
+                if (appStore.isLoggedIn)
+                  NavigationDestination(
+                    icon:
+                        ic_notification.iconImage(color: appTextSecondaryColor),
+                    selectedIcon:
+                        ic_notification.iconImage(color: context.primaryColor),
+                    label: language.lblNotification,
+                  ),
                 // NavigationDestination(
                 //   icon: ic_category.iconImage(color: appTextSecondaryColor),
                 //   selectedIcon: ic_category.iconImage(color: context.primaryColor),

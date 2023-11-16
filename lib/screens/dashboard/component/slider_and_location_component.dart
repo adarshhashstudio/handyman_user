@@ -158,20 +158,20 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
       clipBehavior: Clip.none,
       children: [
         getSliderWidget(),
-        Positioned.fill(
-          child: Center(
-            child: Container(
-              width: context.width() * 1,
-              height: context.height() * 0.10,
-              color: Colors.black54,
-            ),
-          ),
-        ),
+        // Positioned.fill(
+        //   child: Center(
+        //     child: Container(
+        //       width: context.width() * 1,
+        //       height: context.height() * 0.10,
+        //       color: Colors.black54,
+        //     ),
+        //   ),
+        // ),
         Positioned.fill(
           child: Center(
             child: Image.asset(
               'assets/logo_banner.png',
-              width: context.width() * 0.4,
+              width: context.width() * 0.6,
             ),
           ),
         ),

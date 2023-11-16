@@ -261,25 +261,25 @@ class BookingItemComponent extends StatelessWidget {
                     ).expand(),
                   ],
                 ).paddingAll(8),
-                if (bookingData.providerName.validate().isNotEmpty)
-                  Column(
-                    children: [
-                      Divider(height: 0, color: context.dividerColor),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(language.textProvider,
-                              style: secondaryTextStyle()),
-                          8.width,
-                          Text(bookingData.providerName.validate(),
-                                  style: boldTextStyle(size: 12),
-                                  textAlign: TextAlign.right)
-                              .flexible(),
-                        ],
-                      ).paddingAll(8),
-                    ],
-                  ),
+                // if (bookingData.providerName.validate().isNotEmpty)
+                //   Column(
+                //     children: [
+                //       Divider(height: 0, color: context.dividerColor),
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         children: [
+                //           Text(language.textProvider,
+                //               style: secondaryTextStyle()),
+                //           8.width,
+                //           Text(bookingData.providerName.validate(),
+                //                   style: boldTextStyle(size: 12),
+                //                   textAlign: TextAlign.right)
+                //               .flexible(),
+                //         ],
+                //       ).paddingAll(8),
+                //     ],
+                //   ),
                 if (bookingData.handyman.validate().isNotEmpty &&
                     bookingData.providerId !=
                         bookingData.handyman!.first.handymanId!)

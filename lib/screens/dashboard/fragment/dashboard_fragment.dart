@@ -35,7 +35,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
     super.initState();
     init();
 
-    setStatusBarColor(transparentColor, delayInMilliSeconds: 800);
+    setStatusBarColor(primaryColor, delayInMilliSeconds: 800);
 
     LiveStream().on(LIVESTREAM_UPDATE_DASHBOARD, (p0) {
       init();
@@ -64,139 +64,144 @@ class _DashboardFragmentState extends State<DashboardFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarWidget('K&C Services',
-          textColor: white,
-          showBack: false,
-          titleWidget: Row(
-            children: [
-              SvgPicture.asset(
-                "assets/icons/KandC-logo-dark.svg",
-                width: 50,
-              ),
-              13.width,
-              Text(
-                'K&C Services',
-                style: primaryTextStyle(
-                    size: 20, weight: FontWeight.bold, color: white),
-              )
-            ],
-          ),
-          textSize: APP_BAR_TEXT_SIZE,
-          elevation: 3.0,
-          color: context.primaryColor,
-          actions: [
-            if (appStore.isLoggedIn)
-              Container(
-                margin: EdgeInsets.only(right: 16),
-                decoration: boxDecorationDefault(
-                    color: context.cardColor, shape: BoxShape.circle),
-                height: 36,
-                padding: EdgeInsets.all(8),
-                width: 36,
-                child: Stack(
-                  clipBehavior: Clip.none,
+    return SafeArea(
+      child: Scaffold(
+        // appBar: appBarWidget('K&C Services',
+        //     textColor: white,
+        //     showBack: false,
+        //     titleWidget: Row(
+        //       children: [
+        //         SvgPicture.asset(
+        //           "assets/icons/KandC-logo-dark.svg",
+        //           width: 50,
+        //         ),
+        //         13.width,
+        //         Text(
+        //           'K&C Services',
+        //           style: primaryTextStyle(
+        //               size: 20, weight: FontWeight.bold, color: white),
+        //         )
+        //       ],
+        //     ),
+        //     textSize: APP_BAR_TEXT_SIZE,
+        //     elevation: 3.0,
+        //     color: context.primaryColor,
+        //     actions: [
+        //       if (appStore.isLoggedIn)
+        //         Container(
+        //           margin: EdgeInsets.only(right: 16),
+        //           decoration: boxDecorationDefault(
+        //               color: context.cardColor, shape: BoxShape.circle),
+        //           height: 36,
+        //           padding: EdgeInsets.all(8),
+        //           width: 36,
+        //           child: Stack(
+        //             clipBehavior: Clip.none,
+        //             children: [
+        //               ic_notification
+        //                   .iconImage(size: 24, color: primaryColor)
+        //                   .center(),
+        //               Observer(builder: (context) {
+        //                 return Positioned(
+        //                   top: -20,
+        //                   right: -10,
+        //                   child: appStore.unreadCount.validate() > 0
+        //                       ? Container(
+        //                           padding: EdgeInsets.all(4),
+        //                           child: FittedBox(
+        //                             child: Text(appStore.unreadCount.toString(),
+        //                                 style: primaryTextStyle(
+        //                                     size: 12, color: Colors.white)),
+        //                           ),
+        //                           decoration: boxDecorationDefault(
+        //                               color: Colors.red, shape: BoxShape.circle),
+        //                         )
+        //                       : Offstage(),
+        //                 );
+        //               })
+        //             ],
+        //           ),
+        //         ).onTap(() {
+        //           NotificationScreen().launch(context);
+        //         })
+        //     ]),
+        body: Stack(
+          children: [
+            SnapHelperWidget<DashboardResponse>(
+              initialData: cachedDashboardResponse,
+              future: future,
+              errorBuilder: (error) {
+                return NoDataWidget(
+                  title: error,
+                  imageWidget: ErrorStateWidget(),
+                  retryText: language.reload,
+                  onRetry: () {
+                    appStore.setLoading(true);
+                    init();
+
+                    setState(() {});
+                  },
+                );
+              },
+              loadingWidget: DashboardShimmer(),
+              onSuccess: (snap) {
+                return AnimatedScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  listAnimationType: ListAnimationType.FadeIn,
+                  fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
+                  onSwipeRefresh: () async {
+                    appStore.setLoading(true);
+
+                    init();
+                    setState(() {});
+
+                    return await 2.seconds.delay;
+                  },
                   children: [
-                    ic_notification
-                        .iconImage(size: 24, color: primaryColor)
-                        .center(),
-                    Observer(builder: (context) {
-                      return Positioned(
-                        top: -20,
-                        right: -10,
-                        child: appStore.unreadCount.validate() > 0
-                            ? Container(
-                                padding: EdgeInsets.all(4),
-                                child: FittedBox(
-                                  child: Text(appStore.unreadCount.toString(),
-                                      style: primaryTextStyle(
-                                          size: 12, color: Colors.white)),
-                                ),
-                                decoration: boxDecorationDefault(
-                                    color: Colors.red, shape: BoxShape.circle),
-                              )
-                            : Offstage(),
-                      );
-                    })
+                    SliderLocationComponent(
+                      sliderList: snap.slider.validate(),
+                      callback: () async {
+                        appStore.setLoading(true);
+
+                        init();
+                        setState(() {});
+                      },
+                    ),
+
+                    // CategoryComponent(categoryList: snap.category.validate()),
+                    // 16.height,
+                    // FeaturedServiceListComponent(serviceList: snap.featuredServices.validate()),
+                    // ServiceListComponent(serviceList: snap.service.validate()),
+
+                    CategoryComponent(categoryList: [
+                      CategoryData(
+                          id: 1,
+                          description: "Home Repair",
+                          name: "Home Repair",
+                          categoryImage: "assets/images/home-repair.png"),
+                      CategoryData(
+                          id: 2,
+                          description: "Concierge Services",
+                          name: "Concierge Services",
+                          categoryImage: "assets/images/concierge-services.png")
+                    ]),
+                    if (snap.upcomingData != null &&
+                        snap.upcomingData!.isNotEmpty)
+                      30.height,
+                    PendingBookingComponent(upcomingData: snap.upcomingData),
+                    if (snap.upcomingData == null || snap.upcomingData!.isEmpty)
+                      12.height,
+                    // 12.height,
+                    // NewJobRequestComponent(),
                   ],
-                ),
-              ).onTap(() {
-                NotificationScreen().launch(context);
-              })
-          ]),
-      body: Stack(
-        children: [
-          SnapHelperWidget<DashboardResponse>(
-            initialData: cachedDashboardResponse,
-            future: future,
-            errorBuilder: (error) {
-              return NoDataWidget(
-                title: error,
-                imageWidget: ErrorStateWidget(),
-                retryText: language.reload,
-                onRetry: () {
-                  appStore.setLoading(true);
-                  init();
-
-                  setState(() {});
-                },
-              );
-            },
-            loadingWidget: DashboardShimmer(),
-            onSuccess: (snap) {
-              return AnimatedScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                listAnimationType: ListAnimationType.FadeIn,
-                fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
-                onSwipeRefresh: () async {
-                  appStore.setLoading(true);
-
-                  init();
-                  setState(() {});
-
-                  return await 2.seconds.delay;
-                },
-                children: [
-                  SliderLocationComponent(
-                    sliderList: snap.slider.validate(),
-                    callback: () async {
-                      appStore.setLoading(true);
-
-                      init();
-                      setState(() {});
-                    },
-                  ),
-                  if (snap.upcomingData != null &&
-                      snap.upcomingData!.isNotEmpty)
-                    30.height,
-                  PendingBookingComponent(upcomingData: snap.upcomingData),
-                  // CategoryComponent(categoryList: snap.category.validate()),
-                  // 16.height,
-                  // FeaturedServiceListComponent(serviceList: snap.featuredServices.validate()),
-                  // ServiceListComponent(serviceList: snap.service.validate()),
-                  if (snap.upcomingData == null || snap.upcomingData!.isEmpty)
-                    12.height,
-                  CategoryComponent(categoryList: [
-                    CategoryData(
-                        id: 1,
-                        description: "Home Repair",
-                        name: "Home Repair",
-                        categoryImage: "assets/images/home-repair.png"),
-                    CategoryData(
-                        id: 2,
-                        description: "Concierge Services",
-                        name: "Concierge Services",
-                        categoryImage: "assets/images/concierge-services.png")
-                  ]),
-                  12.height,
-                  NewJobRequestComponent(),
-                ],
-              );
-            },
-          ),
-          Observer(
-              builder: (context) => LoaderWidget().visible(appStore.isLoading)),
-        ],
+                );
+              },
+            ),
+            Observer(
+                builder: (context) =>
+                    LoaderWidget().visible(appStore.isLoading)),
+          ],
+        ),
       ),
     );
   }

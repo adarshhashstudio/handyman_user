@@ -129,11 +129,12 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
             //         style: boldTextStyle(size: LABEL_TEXT_SIZE))
             //     .paddingLeft(16),
             HorizontalList(
-              itemCount: list.validate().length,
+              itemCount: list.validate().length - 1,
               padding: EdgeInsets.only(left: 16, right: 16),
               runSpacing: 8,
               spacing: 12,
-              itemBuilder: (_, index) {
+              itemBuilder: (_, adjustedIndex) {
+                int index = adjustedIndex + 1;
                 CategoryData data = list[index];
 
                 return Observer(
@@ -161,68 +162,68 @@ class _ViewAllServiceScreenTwoState extends State<ViewAllServiceScreenTwo> {
                             Column(
                               children: [
                                 16.height,
-                                if (index == 0)
-                                  Container(
-                                    height: CATEGORY_ICON_SIZE,
-                                    width: CATEGORY_ICON_SIZE,
-                                    decoration: BoxDecoration(
-                                        color: context.cardColor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: grey)),
-                                    alignment: Alignment.center,
-                                    child: Text(data.name.validate(),
-                                        style: boldTextStyle(size: 12)),
-                                  ),
-                                if (index != 0)
-                                  data.categoryImage.validate().endsWith('.svg')
-                                      ? Container(
-                                          width: CATEGORY_ICON_SIZE,
+                                // if (index == 0)
+                                //   Container(
+                                //     height: CATEGORY_ICON_SIZE,
+                                //     width: CATEGORY_ICON_SIZE,
+                                //     decoration: BoxDecoration(
+                                //         color: context.cardColor,
+                                //         shape: BoxShape.circle,
+                                //         border: Border.all(color: grey)),
+                                //     alignment: Alignment.center,
+                                //     child: Text(data.name.validate(),
+                                //         style: boldTextStyle(size: 12)),
+                                //   ),
+                                // if (index != 0)
+                                data.categoryImage.validate().endsWith('.svg')
+                                    ? Container(
+                                        width: CATEGORY_ICON_SIZE,
+                                        height: CATEGORY_ICON_SIZE,
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                            color: context.cardColor,
+                                            shape: BoxShape.circle),
+                                        child: SvgPicture.network(
+                                          data.categoryImage.validate(),
                                           height: CATEGORY_ICON_SIZE,
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                              color: context.cardColor,
-                                              shape: BoxShape.circle),
-                                          child: SvgPicture.network(
-                                            data.categoryImage.validate(),
-                                            height: CATEGORY_ICON_SIZE,
-                                            width: CATEGORY_ICON_SIZE,
-                                            color: appStore.isDarkMode
-                                                ? Colors.white
-                                                : data.color
-                                                    .validate(value: '000')
-                                                    .toColor(),
-                                            placeholderBuilder: (context) =>
-                                                PlaceHolderWidget(
-                                                    height: CATEGORY_ICON_SIZE,
-                                                    width: CATEGORY_ICON_SIZE,
-                                                    color: transparentColor),
-                                          ),
-                                        )
-                                      : Container(
-                                          padding: EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                              color: context.cardColor,
-                                              shape: BoxShape.circle),
-                                          child: CachedImageWidget(
-                                            url: data.categoryImage.validate(),
-                                            fit: BoxFit.fitWidth,
-                                            width: SUBCATEGORY_ICON_SIZE,
-                                            height: SUBCATEGORY_ICON_SIZE,
-                                            circle: true,
-                                          ),
+                                          width: CATEGORY_ICON_SIZE,
+                                          color: appStore.isDarkMode
+                                              ? Colors.white
+                                              : data.color
+                                                  .validate(value: '000')
+                                                  .toColor(),
+                                          placeholderBuilder: (context) =>
+                                              PlaceHolderWidget(
+                                                  height: CATEGORY_ICON_SIZE,
+                                                  width: CATEGORY_ICON_SIZE,
+                                                  color: transparentColor),
                                         ),
-                                4.height,
-                                if (index == 0)
-                                  Text(language.lblViewAll,
-                                      style: boldTextStyle(size: 12),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1),
-                                if (index != 0)
-                                  Marquee(
-                                      child: Text('${data.name.validate()}',
-                                          style: boldTextStyle(size: 12),
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1)),
+                                      )
+                                    : Container(
+                                        padding: EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                            color: context.cardColor,
+                                            shape: BoxShape.circle),
+                                        child: CachedImageWidget(
+                                          url: data.categoryImage.validate(),
+                                          fit: BoxFit.fitWidth,
+                                          width: SUBCATEGORY_ICON_SIZE,
+                                          height: SUBCATEGORY_ICON_SIZE,
+                                          circle: true,
+                                        ),
+                                      ),
+                                // 4.height,
+                                // if (index == 0)
+                                //   Text(language.lblViewAll,
+                                //       style: boldTextStyle(size: 12),
+                                //       textAlign: TextAlign.center,
+                                //       maxLines: 1),
+                                // if (index != 0)
+                                Marquee(
+                                    child: Text('${data.name.validate()}',
+                                        style: boldTextStyle(size: 12),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1)),
                               ],
                             ),
                             Positioned(

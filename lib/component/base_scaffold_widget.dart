@@ -7,6 +7,7 @@ import '../utils/constant.dart';
 
 class AppScaffold extends StatelessWidget {
   final String? appBarTitle;
+  final bool showBack;
   final List<Widget>? actions;
 
   final Widget child;
@@ -21,6 +22,7 @@ class AppScaffold extends StatelessWidget {
     this.scaffoldBackgroundColor,
     this.bottomNavigationBar,
     this.showLoader = true,
+    this.showBack = true,
   });
 
   @override
@@ -30,6 +32,7 @@ class AppScaffold extends StatelessWidget {
           ? appBarWidget(
               appBarTitle.validate(),
               textColor: white,
+              showBack: showBack,
               textSize: APP_BAR_TEXT_SIZE,
               elevation: 0.0,
               color: context.primaryColor,

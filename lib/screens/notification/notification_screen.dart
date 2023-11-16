@@ -39,6 +39,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBarTitle: language.lblNotification,
+      showBack: false,
       actions: [
         IconButton(
           icon: Icon(Icons.clear_all_rounded, color: Colors.white),
@@ -92,12 +93,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
               return GestureDetector(
                 onTap: () async {
-                  if (data.data!.notificationType.validate() == NOTIFICATION_TYPE_BOOKING) {
-                    await BookingDetailScreen(bookingId: data.data!.id.validate()).launch(context);
+                  if (data.data!.notificationType.validate() ==
+                      NOTIFICATION_TYPE_BOOKING) {
+                    await BookingDetailScreen(
+                            bookingId: data.data!.id.validate())
+                        .launch(context);
 
                     init();
                     setState(() {});
-                  } else if (data.data!.notificationType.validate() == NOTIFICATION_TYPE_POST_JOB) {
+                  } else if (data.data!.notificationType.validate() ==
+                      NOTIFICATION_TYPE_POST_JOB) {
                     //
                   } else {
                     //

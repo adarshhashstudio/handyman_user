@@ -1303,7 +1303,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                           bookingDetail: snap.data!.bookingDetail!),
 
                       /// About Provider Card
-                      providerWidget(res: snap.data!),
+                      // providerWidget(res: snap.data!),
 
                       /// Price Details
                       // PriceCommonWidget(
